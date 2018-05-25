@@ -1,0 +1,167 @@
+10.
+#include <iostream>
+using namespace std;
+int main()
+{
+int d1,d2;
+cout<<"input two day between 1-30\n";
+cin>>d1;
+cin>>d2;
+while(d1>30 || d1<1||d2>30 || d2<1){
+cout<<"error!\n";
+cout<<"input two day between 1-30\n";
+cin>>d1;
+cin>>d2;
+}
+cout<<"There are "<<abs(d1-d2) <<" days between day "<<d1 <<" and day " <<d2;
+return 0;
+}
+
+11.
+#include<iostream>
+using namespace std;
+int main(){
+	int m1,m2;
+	cout<<"imput two month\n";
+	cin>>m1;
+	cin>>m2;
+	cout<<"There are "<<abs(m1*30-m2*30)<<" days between month "<<m1<<" and month "<<m2;
+return 0;
+}
+
+12.
+#include <iostream>
+using namespace std;
+int main()
+{
+	int y1,y2;
+	cout<<"input 2 years!\n";
+	cin>>y1;
+	cin>>y2;
+	cout<<"There are "<<abs((y1-y2)*360)<<" days between year "<<y1<<" and year "<<y2;
+system("Pause");
+return 0;
+}
+
+13.
+#include <iostream>
+using namespace std;
+int main()
+{
+	int y1,m1,d1,y2,m2,d2;
+	cout<<"input the birthday for child 1!\n";
+	cin>>y1;
+	cin>>m1;
+	cin>>d1;
+	d1=y1*360+m1*30+d1;
+	cout<<"input the birthday for child 2!\n";
+	cin>>y2;
+	cin>>m2;
+	cin>>d2;
+	d2=y2*360+m2*30+d2;
+	cout<<"there are "<<abs(d1-d2)<<" days between child 1 and 2\n";
+system("Pause");
+return 0;
+}
+
+14.
+#include <iostream>
+using namespace std;
+int main()
+{
+	int y1,m1,d1,y2,m2,d2,x1,x2;
+	cout<<"input the birthday for child 1!\n";
+	cin>>y1;
+	cin>>m1;
+	cin>>d1;
+	x1=y1*12+m1;
+	d1=y1*360+m1*30+d1;
+	cout<<"input the birthday for child 2!\n";
+	cin>>y2;
+	cin>>m2;
+	cin>>d2;
+	x2=y2*12+m2;
+	d2=y2*360+m2*30+d2;
+	cout<<"there are "<<abs(y1-y2)<<" years "<<abs(x1-x2)<<" months "<<abs(d1-d2)<<" days between child 1 and 2\n";
+system("Pause");
+return 0;
+}
+
+15.
+#include <iostream>
+using namespace std;
+int main()
+{
+	int a,b1,b2,b3,b4,b5,b6,b7,b8;
+	cout<<"input a number between 0-255\n";
+	cin>>a;
+	b8=a%2;
+	a=a/2;
+	b7=a%2;
+	a=a/2;
+	b6=a%2;
+	a=a/2;
+	b5=a%2;
+	a=a/2;
+	b4=a%2;
+	a=a/2;
+	b3=a%2;
+	a=a/2;
+	b2=a%2;
+	a=a/2;
+	b1=a%2;
+	a=a/2;
+	cout<<"the unsigned binary number is "<<b1<<b2<<b3<<b4<<b5<<b6<<b7<<b8<<"\n";
+return 0;
+}
+
+16.
+#include <iostream>
+using namespace std;
+int main()
+{
+	int a,b1,b2,b3,b4,b5,b6,b7,b8;
+	cout<<"input a number between 0-255\n";
+	cin>>a;
+	b8=a-a/2*2;
+	a=a/2;
+	b7=a-a/2*2;
+	a=a/2;
+	b6=a-a/2*2;
+	a=a/2;
+	b5=a-a/2*2;
+	a=a/2;
+	b4=a-a/2*2;
+	a=a/2;
+	b3=a-a/2*2;
+	a=a/2;
+	b2=a-a/2*2;
+	a=a/2;
+	b1=a-a/2*2;
+	a=a/2;
+	cout<<"the unsigned binary number is "<<b1<<b2<<b3<<b4<<b5<<b6<<b7<<b8<<"\n";
+return 0;
+}
+
+17.
+#include <iostream>
+using namespace std;
+int main()
+{
+	float a;
+	int t,l,q,d,n,p;
+	cin>>a;
+	t=a/2;
+	a=a-t*2;
+	l=a/1;
+	a=a-l*1;
+	q=a/0.25;
+	a=a-q*.25;
+	d=a/0.1;
+	a=a-d*0.1;
+	n=a/0.05;
+	a=a-n*0.05;
+	p=a/0.01;
+	cout<<"there are "<<t<<" toonies,"<<l<<" loonies,"<<q<<" quarters,"<<d<<" dimes,"<<n<<" nikels,"<<p<<" pennies.";
+return 0;
+}
