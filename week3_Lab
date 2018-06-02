@@ -1,0 +1,307 @@
+#include<iostream>
+using namespace std;
+//q1
+/*
+int main()
+{
+	
+	int n,sum=0;
+	cout<<"enter value of n"<<endl;
+for (int count = 1;count<=10; count ++)
+{
+	cin>>n;
+	sum+=n;
+	
+}
+cout << "The value is " << sum << endl;
+return 0;
+}
+*/
+//q2
+/*
+int main()
+{
+	
+	int n,sum=0;
+	cout<<"enter value of n"<<endl;
+for (int count = 1;count<=10; count ++)
+{
+	cin>>n;
+	sum+=n;
+	
+}
+cout << "The avg value is " << sum/10.0 << endl;
+return 0;
+}
+*/
+//q3
+/*
+int main()
+{
+	
+	int n,sum1=0,sum2=0;
+	int c1=0,c2=0;
+for (int count = 1;count<=10; count ++)
+{
+    cout<<"enter value of n"<<endl;
+	cin>>n;
+	if(n<0){
+	sum1+=n;
+	c1++;
+	}
+	else if(n>0) {
+	sum2+=n;
+	c2++;
+	}
+	
+}
+cout << "The total value is " << sum1+sum2<<" the total avg is "<<(sum1+sum2)/10.0 << endl;
+cout << "The total value of positives is " << sum2<<" the total avg is "<<sum2/static_cast<double>(c2)<< endl;
+cout << "The total value of positives is " << sum1<<" the total avg is "<<sum1/static_cast<double>(c1)<< endl;
+return 0;
+}
+*/
+//q4
+/*
+int main()
+{
+	
+	int i,n,sum1=0,sum2=0;
+	int c1=0,c2=0;
+	cout<<"how many value you want to input?"<<endl;
+	cin>>i;
+	
+for (int count = 1;count<=i; count ++)
+{
+    cout<<"enter value of n"<<endl;
+	cin>>n;
+	if(n<0){
+	sum1+=n;
+	c1++;
+	}
+	else if(n>0) {
+	sum2+=n;
+	c2++;
+	}
+	
+}
+cout << "The total value is " << sum1+sum2<<" the total avg is "<<(sum1+sum2)/static_cast<double>(i) << endl;
+cout << "The total value of positives is " << sum2<<" the total avg is "<<sum2/static_cast<double>(c2)<< endl;
+cout << "The total value of negatives is " << sum1<<" the total avg is "<<sum1/static_cast<double>(c1)<< endl;
+return 0;
+}
+*/
+//q6
+/*
+int main()
+{
+	
+	int i,n,sum1=0,sum2=0;
+	int c1=0,c2=0;
+	cin>>i;
+	for(;i<0;){
+	cout<<"how many value you want to input?"<<endl;
+	cin>>i;
+	}
+for (int count = 1;count<=i; count ++)
+{
+    cout<<"enter value of n"<<endl;
+	cin>>n;
+	if(n%2==0&&n>=0){
+	sum1+=n;
+	c1++;
+	}
+	else if(n%2!=0&&n>=0) {
+	sum2+=n;
+	c2++;
+	}
+	
+}
+cout << "The total value of odds and evens is " << sum1+sum2<<" the total avg is "<<(sum1+sum2)/static_cast<double>(c2+c1) << endl;
+cout << "The total value of odds is " << sum2<<" the total avg is "<<sum2/static_cast<double>(c2)<< endl;
+cout << "The total value of evens is " << sum1<<" the total avg is "<<sum1/static_cast<double>(c1)<< endl;
+return 0;
+}
+*/
+//q7
+/*
+int main()
+{
+	
+	int n,sum=1;
+	cout<<"enter value of n"<<endl;
+	cin>>n;
+for (int count = 1;count<=n; count ++)
+{
+	sum*=n;	
+}
+cout << "The value is " << sum << endl;
+return 0;
+}
+*/
+//q8
+/*
+int main()
+{
+	
+	int max,c,flag;
+	cout<<"how many digits?"<<endl;
+	cin>>c;
+	cout<<"enter value of n"<<endl;
+	cin>>flag;
+for (int count = 2;count<=c; count ++)
+{
+	cin>>max;
+	if(flag<max)
+		flag=max;
+}
+cout << "The maximum is " << flag << endl;
+return 0;
+}
+*/
+//q9
+/*
+int main()
+{
+	
+	int min,c,flag;
+	cout<<"how many digits?"<<endl;
+	cin>>c;
+	cout<<"enter value of n"<<endl;
+	cin>>flag;
+for (int count = 2;count<=c; count ++)
+{
+	cin>>min;
+	if(flag>min)
+		flag=min;
+}
+cout << "The minimum is " << flag << endl;
+return 0;
+}
+*/
+//q10
+/*
+int main()
+{
+	
+	int min,c,flag;
+	cout<<"how many digits?"<<endl;
+	cin>>c;
+	cout<<"enter value of n"<<endl;
+	cin>>flag;
+for (int count = 2;count<=c; count ++)
+{
+	
+	cin>>min;
+	if(min<0)
+	{
+		if(flag<0)
+		{
+			if((0-flag)<(0-min))
+				flag=min;	
+	}
+	}
+	if(min>0)
+	{
+		if(flag>0)
+		{
+		if(flag<min)
+			flag=min;
+		}
+		else if(0-flag<min)
+			flag=min;
+	}
+}
+cout << " The maximum in absolute value is " << flag << endl;
+return 0;
+}
+*/
+//q11
+/*
+int main()
+{
+	
+	int i;
+	double sum=0;
+	cout<<"HowManyDigits?\n";
+	cin>>i;
+	for(;i<0;)
+	{
+	cout<<"how many value you want to input?"<<endl;
+	cin>>i;
+	}
+	for (int count = 1;count<=i; count ++){
+	if(count%2!=0)sum+=1.00/count;
+	else sum-=1.00/count;
+}
+	cout<<sum<<endl;
+return 0;
+}
+*/
+//q12
+/*
+int main()
+{
+	int n;
+	cin>>n;
+	bool isPrime=1;
+	for(int i=2;i<=n-1;i++){
+	if(n!=2&&n%2==0) isPrime=0;
+	if(n==2)isPrime=1;
+	}
+	if(isPrime)
+		cout<<"Prime\n";
+	else
+		cout<<"Composite\n";
+return 0;
+}
+*/
+//q13
+/*
+int main()
+{
+	int n;
+	cin>>n;
+	bool isPrime=1;
+	for(int i=2;i<=n-1;i++){
+	if(n!=2&&n%2==0) isPrime=0;
+	if(n==2)isPrime=1;
+	}
+	if(isPrime)
+		cout<<"Not Composite\n";
+	else
+		cout<<"Composite\n";
+return 0;
+}
+*/
+//q14
+/*
+int main()
+{
+	int n=10,sum1=1,sum2=1;
+	cout<<sum1<<"\t"<<sum2<<"\t";
+	for(int i=2;i<=n;i++)
+	{
+	sum1+=sum2;
+	sum2+=sum1;
+	cout<<sum1<<"\t"<<sum2<<"\t";
+	}
+return 0;
+}
+*/
+//q15
+int main()
+{
+	int n;
+	bool isPrime=1;
+	for(int i=1;i<=n;i++){
+		cin>>n;
+	if(n!=2&&n%2==0) isPrime=0;
+	if(n==2)isPrime=1;
+	}
+	if(isPrime)
+		cout<<"Not Composite\n";
+	else
+		cout<<"Composite\n";
+return 0;
+}
