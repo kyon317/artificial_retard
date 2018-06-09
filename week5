@@ -1,0 +1,183 @@
+#include<iostream>
+using namespace std;
+/*1
+int main()
+{
+	int n=0;
+	cout<<n<<endl;
+	while(n<28)
+	{
+	n+=2;
+	cout<<n<<endl;
+	}
+}
+*/
+/*2
+int main()
+{
+	int n=1;
+	cout<<n<<endl;
+	while(n<25)
+	{
+	n+=2;
+	cout<<n<<endl;
+	}
+}
+*/
+/*3
+int main()
+{
+	int n=1;
+	int i;
+	cin>>i;
+	cout<<n<<endl;
+	while(n<i)
+	{
+	n++;
+	cout<<n<<endl;
+	}
+}
+*/
+/*q1
+int main()
+{
+	int n=0;
+do
+	{
+
+	cout<<n<<endl;
+	n+=2;
+
+	}	while(n<=28);
+}
+*/
+/*q2
+int main()
+{
+	int n=1;
+do
+	{
+
+	cout<<n<<endl;
+	n+=2;
+
+	}	while(n<=25);
+}
+*/
+/*q3
+int main()
+{
+	int n=1;
+	int i;
+	cin>>i;
+do
+	{
+	
+	cout<<n<<endl;
+	n++;
+
+	}	while(n<=i);
+}
+*/
+/*q5
+
+int main()
+{
+	int a=rand()%26-10;
+	int b=rand()%26-10;
+	if(a>b){
+	int temp = a;
+	a=b;
+	b=temp;
+	}
+	a++;
+	b--;
+    do
+	{
+
+	cout<<a<<endl;
+	a++;
+	}	while(a<b);
+}
+*/
+/*
+int main()
+{
+	int i=1;
+	while(i<=5){
+		for(int j=0;j<5;j++){
+		cout<<"*";
+		}
+		cout<<endl;
+		i++;
+	}
+}
+*/
+/*
+int main()
+{
+	int i=1;
+	while(i<=5){
+		for(int j=1;j<=i;j++){
+		cout<<"*";
+		}
+		cout<<endl;
+		i++;
+	}
+}
+*/
+/*
+int main()
+{
+	int i=1;
+	while(i<=5){
+		for(int j=1;j<=5-i;j++){
+		cout<<" ";
+		}
+		for(int j=1;j<=i;j++){
+		cout<<"*";
+		}
+		cout<<endl;
+		i++;
+	}
+}
+*/
+/*
+int main()
+{
+	int n;
+	cin>>n;
+	for(int i=1;i<=n;i++){
+		for(int j=1;j<=n;j++){
+		cout<<i*j<<"\t";
+		}
+		cout<<endl;
+	}
+}
+*/
+/*
+int main()
+{
+	int n;
+	cin>>n;
+	for(int i=1;i<=n;i++){
+		for(int j=1;j<=i;j++){
+		cout<<i*j<<"\t";
+		}
+		cout<<endl;
+	}
+}
+*/
+int main()
+{
+	int n;
+	cin>>n;
+	for(int i=1;i<=n;i++){
+		for(int j=1;j<=n;j++){
+			if(i+j<n+1) cout<<"\t";
+			else
+		cout<<i*(i+j-n)<<"\t";
+		}
+		cout<<endl;
+	}
+}
