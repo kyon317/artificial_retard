@@ -1,14 +1,8 @@
-
 #include <iostream>
-
+#include<stdio.h>
 using namespace std;
-int main(){
-    //fun1();
-
-}
-
 void fun1(){
-    int a;
+	int a;
     int b;
     cin>>a;
     cin>>b;
@@ -23,6 +17,9 @@ void fun1(){
         cout<<i;
     }
 }
+
+
+
 
 void fun2(){
     //13579;13579;012345678;
@@ -49,18 +46,19 @@ void fun2(){
 }
 
 void fun6(){
-    int n;
-    int j;
-    cin>>n;
-    for (int i=2; i<n+2; i++) {
-        for(j=n;;j++){
-            if (j%i==0) {
-                continue;
-            }
-            else cout<<j;
-        }
-    }
-    
+	int n;
+	cin>>n;
+	for(int m=n,p=0;p<n;m++){
+	bool count=0;
+
+	for(int k=2;k<=m-1;k++){
+	if(m%k==0)count=1;
+	}
+	if(count==0){
+	cout<<m<<endl;
+	p++;
+	}
+	}
 }
 void fun7(){
     for (int i=1; i<11; i++) {
@@ -137,22 +135,98 @@ void fun13(){
         }
         cout<<endl;
     }
+}
     void fun14(){
     int n;
     cin>>n;
-    for(int i=1;i<=2*n-1;i++){
-        for(int j=1;j<=n;j++){
-            if (i<=n) {
-                if(i<=j)cout<<" ";
-                else cout<<"*";
-            }
-            else{
-                if (i+j-n<=n) {
-                    cout<<"*";
-                }
-                else cout<<" ";
-            }
-        }
-        cout<<endl;
-    }
+	for(int i=0;i<n;i++){
+		for(int j=0;j<n;j++){
+		if(j<=i)cout<<"*";
+		else cout<<" ";
+		}
+		cout<<endl;
+	}
+	for(int i=n+1;i<2*n;i++){
+		for(int j=0;j<n;j++){
+		if(j+i<=n*2-1)cout<<"*";
+		else cout<<" ";
+		}
+		cout<<endl;
+	}
+
+}
+
+	void fun15(){
+		int n;
+		cin>>n;
+		for(int i=0;i<n;i++){
+		for(int j=0;j<n-i;j++)
+			cout<<" ";
+		for(int j=1;j<=i;j++)
+			cout<<j;
+		for(int j=i-1;j>=1;j--)
+			cout<<j;
+		cout<<endl;
+		}
+	}   
+	
+	
+	void fun16(){
+    int n;
+    cin>>n;
+	for(int i=0;i<n;i++){
+		for(int j=n;j>0;j--){
+		if(j>i)cout<<" ";
+		else cout<<"*";
+		}
+		cout<<endl;
+	}
+	for(int i=0;i<n;i++)cout<<"*";
+	cout<<endl;
+	for(int i=n+1;i<2*n;i++){
+		for(int j=n;j>0;j--){
+		if(j+i>2*n)cout<<" ";
+		else cout<<"*";
+		}
+		cout<<endl;
+	}
+
+}
+	void fun19(){
+	int n;
+	cin>>n;
+	for(int i=0;i<2*n;i++){
+		if(i<=n){
+			for(int j=0;j<2*n;j++){
+				if(j<=n){
+				if(i<=j)cout<<" ";
+				else cout<<"*";
+				}
+				else{
+				if(i+j>=i+n)cout<<" ";
+				else cout<<"*";
+				}
+				
+			}
+		}
+		else{
+				for(int j=n;j>0;j--){
+				if(j<=n){
+				if(i<=j)cout<<" ";
+				else cout<<"*";
+				}
+				else{
+				if(i+j>=2*n-1)cout<<" ";
+				else cout<<"*";
+				}
+				
+			}
+		}
+		cout<<endl;
+	}
+	}
+int main(){
+	//fun6();
+	fun19();
+	return 0;
 }
