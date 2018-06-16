@@ -1,0 +1,115 @@
+#include <iostream>
+#include <cmath>
+#include "math.h"
+#include <cstdlib>
+#include <ctime>
+using namespace std;
+bool isEven(int a){
+	if(a%2==0)return 1;
+	else return 0;
+}
+int random(){
+	srand(time(0));
+
+	//for(int i = 0;i<10;i++){
+		//cout<<rand()<<endl;//}
+	//for(int i = 0;i<10;i++){
+	//cout<<(float)rand()/RAND_MAX<<endl;
+		return rand();
+	}
+	
+
+void fun(int a,int b,int c){
+	double temp = b*b-4*a*c;
+	if(temp<0)cout<<"DNE\n";
+	else{
+	double x1=(-b+sqrt(temp))/2;
+	double x2=(-b-sqrt(temp))/2;
+	cout<<"x1= "<<x1<<endl;
+	cout<<"x2= "<<x2<<endl;
+	}
+
+	}
+float avg(int a,int b,int c){
+float sum = a+b+c;
+float avg=sum/3.0;
+return avg;
+}
+void pts(){
+	int r;
+	do{
+	cout<<"inter radius >= 5 "<<endl;
+	cin>>r;
+	}while(r<5);
+	for(int i=r;i>=-r;i--){
+		for(int j=-r;j<=r;j++){
+		double d =sqrt((double)(i*i+j*j));
+		if(d<=r) cout<<"*";
+		else cout<<" "; 
+		}
+		cout<<endl;
+	}
+
+}
+void cp(float a[3]){
+	int i,j;
+	for(i=0;i<3;i++){
+		for(j=i;j<3;j++){
+			if(a[j]<a[i])
+			    flag=a[i];
+				a[i]=a[j];
+				a[j]=flag;
+		}
+	}
+	for(int i=0;i<3;i++){
+	cout<<a[i];
+	}
+}
+bool isDigit(char a){
+if(a<'9'&&a>'0') return true;
+else return false;
+}
+//void printIncreasingorder(float a,float b,float c){}
+int main()
+{
+	/*
+	char a;
+	cin>>a;
+	if(isDigit(a)) cout<<"is digit"<<endl;
+	else cout<<"not a digit"<<endl;
+	*/
+	float a[3];
+	for(int i=0;i<3;i++){
+	cin>>a[i];
+	}
+	cp(a);
+	/*for(int i=0;i<10;i++){
+		cout<<rand();
+	if(isEven(rand()))cout<<"is even"<<endl;
+	else cout<<"odd"<<endl;
+	}*/
+
+	/*
+	int a = -3;
+	double b = 6.25,c=-1.097;
+
+	a= abs(a);
+	cout<<"abs"<<a<<endl;
+
+	double answer = pow(a,b);
+	cout<<"power"<<answer<<endl;
+
+	cout<<"rounding"<<ceil(b)<<endl;
+	int x = floor(c);
+	cout<<"floor"<<x<<endl;
+	*/
+	//int b1;
+	//int c1;
+
+	//if(isEven(a1))cout<<"is even"<<endl;
+	//else cout<<"odd"<<endl;
+	//cout<<avg(a1,b1,c1);
+	//fun(a1,b1,c1);
+	//pts();
+	//random();
+}
