@@ -1,0 +1,56 @@
+void fun(int*A){
+srand(time(0));
+for(int i = 0;i<10;i++){
+A[i]=rand()%21+5;
+}
+
+for(int i = 0;i<10;i++){
+cout<<i<<" = "<<A[i]<<endl;
+}
+}
+void test(int *e,int n){
+	for(int i = 0;i<n;i++)
+		*(e+i)*=2;
+}
+void outputstr(int *e,int n){
+	for(int i = 0;i<n;i++){
+	cout<<*(e+i)<<endl;
+	}
+}
+int min(int*a,int n){
+	int min = a[0];
+	for(int i=0;i<n;i++){
+	if(min>a[i]) min = a[i];
+	}
+	return min;
+}
+int sequentialSearch(const int*a,const int size,const int s,int*b){
+	int j=0;
+	for(int i=0;i<size;i++){
+		if(a[i]==s)
+		{
+			b[j]=i;
+			j++;
+		}
+		else continue;
+	}
+	return *b;
+}
+const int SIZE =10;
+int main()
+{
+	int A[SIZE]={-1,4,4,4};
+//fun(A);
+//cout<<min(A,10)<<endl;
+//test(A,10);
+//outputstr(A,10);
+int s = 4;
+int b[SIZE]={-1};
+
+*b=sequentialSearch(A,10,s,b);
+if(b[0]!=-1){
+for(int i=0;b[i]!='\0';i++)
+	cout<<*(b+i)<<endl;
+}else
+	cout<<"not found"<<endl;
+}
