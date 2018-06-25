@@ -1,0 +1,75 @@
+//
+//  main.cpp
+//  week7lab
+//
+//  Created by VINCENT 胡 on 2018/6/25.
+//  Copyright © 2018年 VINCENT 胡. All rights reserved.
+//
+
+#include <iostream>
+#include <cstdlib>
+#include <time.h>
+using namespace std;
+float numGenerator(){
+    srand(time(0));
+    float a=rand();
+    a=(float)(a)/RAND_MAX*2-1;
+    return a;
+}
+
+bool isPrime(int x){
+    int count=0;
+
+    for (int i=1; i<x; i++) {
+        if(x%i==0)
+            count++;
+    }
+    if (count>2) {
+        return 0;
+    }
+    else return 1;
+}
+int sizeCounter(char*a){
+    int count = 0;
+    for (int i=0; a[i]!='\0'; i++) {
+        if(a[i]=='a')count++;
+        if(a[i]=='e')count++;
+        if(a[i]=='i')count++;
+        if(a[i]=='o')count++;
+        if(a[i]=='u')count++;
+        if(a[i]=='A')count++;
+        if(a[i]=='E')count++;
+        if(a[i]=='I')count++;
+        if(a[i]=='O')count++;
+        if(a[i]=='U')count++;
+    }
+    return count;
+}
+const int SIZE=10;
+int main() {
+    //int x=0;
+    //int y=0;
+    //isPrime(x);
+    //float a[10];
+    char chara[SIZE];
+    for (int i = 0; i<SIZE; i++) {
+        cin>>chara[i];
+    }
+    cout<<sizeCounter(chara);
+    /*for (int i=0; i<10; i++) {
+        a[i]=numGenerator();
+    }
+    for (int i=0; i<10; i++) {
+        if (a[i]>0) {
+            cout<<"this number is bigger than 0 "<<a[i]<<endl;
+            x++;
+        }else if(a[i]<0){
+            cout<<"this number is less than 0 "<<a[i]<<endl;
+            y++;
+        }
+    }
+    cout<<"there are "<<x<<" numbers >0 \n";
+    cout<<"there are "<<y<<" numbers <0 \n";*/
+    
+    return 0;
+}
