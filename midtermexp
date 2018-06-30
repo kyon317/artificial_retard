@@ -1,0 +1,39 @@
+#include<iostream>
+using namespace std;
+
+const int SIZE = 5;
+bool isFound(int a[],int size,int m){
+	for(int i = 0;i<size;i++){
+		if(a[i]==m)return true;
+		else continue;
+	}
+	return false;
+}
+bool isContained(int A1[],int A2[],int size1,int size2){
+	for(int i = 0;i<size1;i++){
+		if(isFound (A2,size2,A1[i])==true)continue;
+		else return false;
+	}
+	return true;
+}
+bool isPalindrome(int x){
+int y = 0;
+int z = x;
+do{
+int d = x%10;
+y= 10*y+d;
+x=x/10;
+}while(x>0);
+if(z==y) return true;
+else return false;
+}
+int main()
+{
+	//int a[SIZE]={1,2,3,4,5};
+	int b[SIZE]={1,2,3,4,5};
+	int c[SIZE]={2,2,2,2,2};
+	int d[1]={1};
+	if(isContained(d,c,1,SIZE)==true)cout<<"Y";
+	else cout<<"N";
+}
+
