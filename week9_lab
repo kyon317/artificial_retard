@@ -1,0 +1,37 @@
+#include <iostream>
+#include<cmath>
+using namespace std;
+typedef int* IntPtr;
+int quadraticSolver(float a, float b, float c, float &sol1, float &sol2)
+{
+	float delta = b*b-4*a*c;
+	if(delta<0){
+		return 0;
+	}
+	else if(delta>0){
+		sol1=(-b+sqrt(delta))/2*a;
+		sol2=(-b-sqrt(delta))/2*a;
+		return 2;
+	}
+	else{
+		sol1=(-b+sqrt(delta))/2*a;
+		sol2=sol1;
+		return 1;
+	}
+}
+int main()
+{
+float a, b, c;
+cout << "Enter the coefficients a, b, c: ";
+cin >> a >> b >> c;
+float s1, s2;
+//Test parameter passing by reference
+int n = quadraticSolver(a, b, c, s1, s2);
+if (n==0)
+cout << "The quadratic equation has no solution " << endl;
+else if (n==1)
+cout << "The quadratic equation has one solution " << s1 << endl;
+else
+cout << "The quadratic equation has two solutions " << s1 << " and " << s2 << endl;
+return 0;
+}
