@@ -1,0 +1,24 @@
+#include<iostream>
+using namespace std;
+
+int binarySearch(const int A[],const int searchValue,int startIndex,int lastIndex){
+	while(lastIndex>=startIndex){
+		int middleIndex = (startIndex+lastIndex)/2;
+		if(A[middleIndex]==searchValue)
+			return middleIndex;
+		else if(A[middleIndex]>searchValue)
+			lastIndex = middleIndex -1;
+		else
+			startIndex = middleIndex +1;
+	}
+	return -1;
+}
+
+//selection runtime quadratic f(n) = 0.5n2 – 0.5n >>>>f(n) = O(n^2) best same
+//bubble runtime quadratic f(n) = n(n-1)/2 >>>>f(n) = O(n^2) best n-1
+///conclusion: both have the same runtime speed,
+///however we can save time by adding an if statement to check if it is sorted.
+//insertion runtime quadratic f(n) = n(n-1)/2 >>>>f(n) = O(n^2) best n-1
+int main(){
+
+}
