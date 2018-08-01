@@ -1,0 +1,355 @@
+#include <iostream>
+#include<cstring>
+using namespace std;
+int stringLength(const char*X){
+    int length = 0;
+    for (int i = 0; X[i]!='\0'; i++) {
+        length++;
+    }
+    return length;///the length only counts printable characters
+}
+int countChars(const char* s, const char ch)
+{
+	int Ans = 0;
+	for(int i = 0;s[i]!='\0';i++)
+		if(s[i]==ch)
+			Ans++;
+	return Ans;
+//returns the number of times the character ch is found in s
+}
+int findChar(const char* s, const char ch, const int startIndex, const int lastIndex)
+{
+	if(stringLength(s)<lastIndex)
+		return -1;
+	for(int i = startIndex;i<lastIndex;i++)
+		if(s[i]==ch) 
+			return i;
+	return -1;
+}
+void rotateStringByOne(char*s,int direct){
+	if(direct==1){
+		char temp = s[0];
+		for(int i=0;s[i]!='\0';i++)
+			s[i]=s[i+1];
+		s[stringLength(s)]=temp;
+	}
+	if(direct==-1){
+		char temp = s[stringLength(s)-1];
+		for(int i=stringLength(s)-1;i>=1;i--)
+			s[i]=s[i-1];
+		s[0]=temp;
+	}
+}
+void rotateString(char* s, const int r)
+{
+	if(r>0){
+		for(int i=0;i<r;i++)
+			rotateStringByOne(s,1);
+	}
+	if(r<0){
+		for(int i=r;i<0;i++)
+			rotateStringByOne(s,-1);
+}
+}
+void append(char*& s, const char ch)
+{
+	int size = stringLength(s);
+	char*s1 = new char[size+2];
+	for(int i = 0;s[i]!='\0';i++)
+		s1[i]=s[i];
+	s1[size]=ch;
+	s1[size+1]='\0';
+	s=s1;
+}
+void append(char*& s1, const char* s2){
+    int size = stringLength(s1)+stringLength(s2)+1;
+    char*X = new char[size];
+    for (int i = 0; i<stringLength(s1); i++){
+        X[i]=s1[i];
+
+    }
+    int j =0;
+    for (int i=stringLength(s1); i<size; i++) {
+        X[i]=s2[j];
+        j++;
+    }
+    s1 = X;
+}
+void removeAll(char*& s, const char ch){
+    for (int i=0; i<stringLength(s); i++) {
+        if (s[i]==ch) {
+            for (int j=i; j<=stringLength(s); j++) {
+                s[j]=s[j+1];
+				i--;
+            }
+        continue;
+		}
+    }
+}
+char* zigzagMerge(const char *s1, const char* s2){
+	int len = stringLength(s1)+stringLength(s2);
+	int j = 0;
+    char*Ans=new char[stringLength(s1)+stringLength(s2)+1];
+	if(stringLength(s1)!=stringLength(s2)){
+		int size;
+		if(stringLength(s1)<stringLength(s2)){
+			size = stringLength(s1)*2;
+			
+			for(int i = 0;i<size;i+=2){
+				Ans[i]=s1[j];
+				j++;
+			}
+			j=0;
+			for(int i = 1;i<size;i+=2){
+				Ans[i]=s2[j];
+				j++;
+			}
+			j=0;
+			for(int i = stringLength(s1);i<=stringLength(s2);i++){
+				Ans[size]=s2[i];
+				size++;
+			}
+		}
+		else if(stringLength(s1)>stringLength(s2)){
+			j=0;
+			size =stringLength(s2)*2;
+			for(int i = 0;i<size;i+=2){
+				Ans[i]=s1[j];
+				j++;
+			}
+			j=0;
+			for(int i = 1;i<size;i+=2){
+				Ans[i]=s2[j];
+				j++;
+			}
+			j=0;
+			for(int i = stringLength(s2);i<=stringLength(s1);i++){
+				Ans[size]=s1[i];
+				size++;
+			}
+		}
+	}
+	else{
+		j=0;
+			int size1 =stringLength(s2)*2;
+			for(int i = 0;i<size1;i+=2){
+				Ans[i]=s1[j];
+				j++;
+			}
+			for(int i = 1;i<size1;i+=2){
+				Ans[i]=s2[j];
+				j++;
+			}
+			Ans[len]='\0';
+	}
+    return Ans;
+}
+int countCharactersFrom(const char X[],const char flag,const int index){
+    int repeatTime = 0;
+    for (int i=index; X[i]!='\0'; i++) {
+        if (flag==X[i]) {
+            repeatTime++;
+        }
+    }
+    return repeatTime;
+}
+int countDistinctChars(const char X[]){
+    int distinctNum = 0;
+    for (int i=0; X[i]!='\0'; i++) {
+        if (countCharactersFrom(X, X[i], i)==1) {
+            distinctNum++;
+        }
+    }
+    return distinctNum;
+}
+char*getDistinctChars(const char X[]){
+    int j = 0;
+    int size = countDistinctChars(X);
+    size++;
+    char*Ans = new char[size];
+    for (int i=0; X[i]!='\0'; i++) {
+        if (countCharactersFrom(X, X[i], i)==1) {
+            Ans[j]=X[i];
+            j++;
+        }
+    }
+    size--;
+    Ans[size]='\0';
+    return Ans;
+}
+bool isFound(const char*s1,char ch){
+	for(int i = 0;s1[i]!=0;i++){
+		if(s1[i]==ch)return true;
+		else continue;
+	}
+	return false;
+}
+bool isAnagram(const char *s1, const char* s2)
+{
+	if(stringLength(s1)!=stringLength(s2))return false;
+	else{
+		if(countDistinctChars(s1)!=countDistinctChars(s2))return false;
+		else{
+			char*A1 = getDistinctChars(s1);
+			char*A2 = getDistinctChars(s2);
+			for(int i = 0;A1[i]!='\0';i++){
+				if(!isFound(A2,A1[i]))return false;
+				else continue;
+			}
+		}
+	}
+	return true;
+/*
+returns true if s1 and s2 contain same distinct characters appearing same number of times in
+both s1 and s2; otherwise returns false
+That is, this function returns true if s1 and s2 are permutations (re-arrangements) of each
+other.
+*/
+}
+bool isFoundFrom(const char X[],const char flag,const int index){
+	if(X[index]==flag)return true;
+	return false;
+}
+bool isSubString(const char *s1, const char* s2)
+{
+	int j = 0;
+	int count = 0;
+	for(int i = 0;s2[i]!='\0';i++){
+		if(s2[i]==s1[j]){
+			count++;
+			j++;
+			continue;
+		}else if(s1[j]!='\0'){
+			count=0;
+			j=0;
+		}
+	}
+	if(count==stringLength(s1))return true;
+	return false;
+/*
+returns true is s1 is a substring of s2 otherwise returns false
+Definition: s1 is a substring of s2 if s1 is found in s2.
+That is all characters of s1 are found TOGETHER in s2 in the SAME ORDER as they appear in s1
+Example "set" is a substring of "massachussettes" But "ets" is not substring of
+"massachussettes"
+*/
+	
+}
+int countWords(const char* s)
+{
+	int count = 0;
+	for(int i = 0;s[i]!='\0';i++){
+		if(s[i]!=' '){
+			if(s[i+1]==' ')count++;
+			else if(s[i+1]=='\0')count++;
+		}
+	}
+	return count;
+}
+
+int main(){
+/*
+This main program is designed to test the functions you need to implement.
+You should NOT remove any line of code from this main program.
+But you may add more test code in the main program if you like.
+*/
+//Test stringLength function
+cout << endl;
+char s1[] = "massachussettes";
+cout << s1 << " has " << stringLength(s1) << " characters" << endl;
+//Test countChars function
+cout << endl;
+char ch = 's';
+int c = countChars(s1, ch);
+cout << ch << " appears " << c << " times in " << s1 << endl;
+//Test findChar function
+cout << endl;
+int index = findChar(s1, ch, 10, 14);
+if (index == -1)
+cout << ch << " is not found in " << s1 << " between indexes [10, 14)" << endl;
+else
+cout << ch << " is found at index " << index << " in " << s1 << " between indexes [10,14)" << endl;
+//Test rotateString function
+cout << endl;
+char temp1[] = "massachussettes";
+rotateString(temp1, 2);
+cout << s1 << " rotated 2 units to the left becomes " << temp1 << endl;
+char temp2[] = "massachussettes";
+rotateString(temp2, -19);
+cout << s1 << " rotated 19 units to the right becomes " << temp2 << endl;
+//Test append function (appending a character to c-string)
+cout << endl;
+char* s2 = new char[1];
+s2[0] = '\0';
+cout << "Given the c-string " << s2 << endl;
+ch = 'a';
+append(s2, ch);
+cout << "\tAppending " << ch << " results to " << s2 << endl;
+ch = 'b';
+append(s2, ch);
+cout << "\tAppending " << ch << " results to " << s2 << endl;
+//Test append function (appending a c-string to a c-string)
+cout << endl;
+cout << "Appending " << s1 << " to " << s2 << ", we get ";
+append(s2, s1);
+cout << s2 << endl;
+//Test removeAll function
+cout << endl;
+ch = 'e';
+cout << "Removing all occurences of " << ch << " from " << s2 << ", we get ";
+removeAll(s2, ch);
+cout << s2 << endl;
+ch = 't';
+cout << "Removing all occurences of " << ch << " from " << s2 << ", we get ";
+removeAll(s2, ch);
+cout << s2 << endl;
+ch = 's';
+cout << "Removing all occurences of " << ch << " from " << s2 << ", we get ";
+removeAll(s2, ch);
+cout << s2 << endl;
+//Test zigzagMerge function
+cout << endl;
+char *s3 = zigzagMerge(s1, s2);
+cout << "The zigzag merge of " << s1 << " and " << s2 << " is " << s3 << endl;
+//Test isAnagram function
+cout << endl;
+char s4[] = "htsemsaesuatscs";
+bool flag = isAnagram(s1, s4);
+if (flag)
+cout << s1 << " and " << s4 << " are anagrams" << endl;
+else
+cout << s1 << " and " << s4 << " are not anagrams" << endl;
+//Test isSubString function
+cout << endl;
+flag = isSubString(s1, s4);
+if (flag)
+cout << s1 << " is a substring of " << s4 << endl;
+else
+cout << s1 << " is not a substring of " << s4 << endl;
+char s5[] = "abort";
+char s6[] = "abcabodefaborhuhabortabunny";
+flag = isSubString(s5, s6);
+if (flag)
+cout << s5 << " is a substring of " << s6 << endl;
+else
+cout << s5 << " is not a substring of " << s6 << endl;
+//Test countWords function
+cout << endl;
+char s7[] = "";
+c = countWords(s7);
+cout << "There are " << c << " words in " << s7 << endl;
+char s8[] = "Test";
+c = countWords(s8);
+cout << "There are " << c << " words in " << s8 << endl;
+char s9[] = "Nice one";
+c = countWords(s9);
+cout << "There are " << c << " words in " << s9 << endl;
+char s10[] = "This is a nice assignment and hopefully an interesting as well";
+c = countWords(s10);
+cout << "There are " << c << " words in " << s10 << endl;
+//Delete dynamically allocated memories
+delete[] s2;
+delete[] s3;
+system("Pause");
+return 0;
+}
