@@ -1,0 +1,55 @@
+#include<iostream>
+using namespace std;
+
+//Q1 
+//A $9.99 
+//A $1.11
+
+//Q2 semicolon
+
+/*
+A. struct point
+(
+double x, y;
+);
+B. struct point
+{
+double x;
+double y;
+};
+C. struct point
+{
+double x;
+double y;
+};
+D. struct point
+{
+double x;
+double y;
+};
+E. struct point
+{
+double x;
+double y;
+};
+*/
+
+//Q4
+struct RationalNumber
+{
+	int a;
+	int b;
+};
+double toDouble(RationalNumber a)
+{
+	double ans;
+	ans = (a.a/a.b)*2.0;
+	return ans;
+}
+
+//Q5
+
+int main()
+{
+	
+}
