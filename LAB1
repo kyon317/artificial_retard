@@ -48,7 +48,34 @@ double toDouble(RationalNumber a)
 }
 
 //Q5
+void standardize(RationalNumber *num){
+    if (num->b<0) {
+        num->a = 0-num->a;
+        num->b = abs(num->b);
+    }
+}
 
+void reduce(RationalNumber *num){
+    int flag1=1;
+    int size=num->a;
+    if (num->a<num->b) {
+        size = num->b;
+    }
+    for (int i=1; i<=size; i++) {
+        if (num->a%i==0&&num->b%i==0) {
+            flag1 = i;
+        }
+        else continue;
+    }
+    num->a = num->a/flag1;
+    num->b = num->b/flag1;
+}
+
+struct StringStat
+{
+    string s;
+    int lower, upper, digit;
+};
 int main()
 {
 	
