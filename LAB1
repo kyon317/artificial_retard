@@ -1,4 +1,6 @@
+
 #include<iostream>
+#include<string>
 using namespace std;
 
 //Q1 
@@ -43,7 +45,7 @@ struct RationalNumber
 double toDouble(RationalNumber a)
 {
 	double ans;
-	ans = (a.a/a.b)*2.0;
+	ans = (a.a/(a.b*1.0));
 	return ans;
 }
 
@@ -56,19 +58,35 @@ void standardize(RationalNumber *num){
 }
 
 void reduce(RationalNumber *num){
-    int flag1=1;
-    int size=num->a;
-    if (num->a<num->b) {
-        size = num->b;
+    int flag=1;
+    int size=abs(num->a);
+    if (abs(num->a)>abs(num->b)) {
+        size = abs(num->b);
     }
     for (int i=1; i<=size; i++) {
         if (num->a%i==0&&num->b%i==0) {
-            flag1 = i;
+            flag = i;
         }
         else continue;
     }
-    num->a = num->a/flag1;
-    num->b = num->b/flag1;
+    num->a = num->a/flag;
+    num->b = num->b/flag;
+}
+
+int gcd(int a,int b)
+{
+	a = abs(a);
+	b = abs(b);
+	if (b > a)
+	{
+		int temp = a;
+		a = b;
+		b = temp;
+	}
+	if(b==0)
+		return a;
+	else
+		return gcd(a,a%b);
 }
 
 struct StringStat
@@ -76,7 +94,54 @@ struct StringStat
     string s;
     int lower, upper, digit;
 };
+
+/*
+StringStat readstring(){
+	StringStat a;
+	cout<<"enter a character"<<endl;
+	
+}
+*/
+/*
+void caculatedigits(StringStat &a)
+{
+
+	for(int i= 0;i<sizeof(a.s);i++)
+	{
+		if(a.s>='a'&&a.s<='z') a.lower++;
+		if(z[i]>='A'&&z[i]<='Z') a.upper++;
+		if(z[i]>='0'&&z[i]<='9') a.digit++;
+	}
+}
+*/
+void strings()
+{
+	StringStat a[6];
+	for(int i = 0;i<5;i++)
+	{
+		cin>>a[i].s;
+	}
+	for(int i = 0;i<5;i++)
+	{
+		a[i].digit = 0;
+		a[i].lower = 0;
+		a[i].upper = 0;
+		//caculatedigits(a[i]);
+	}
+	cout<<a[0].digit<<endl;
+}
+
+struct StudentRecord
+{
+string name;
+float test, midterm, final; //test (20%), midterm (30%) and final (50%)
+char letterGrade;
+};
+
+void viewRecord(StudentRecord stu)
+{
+
+}
 int main()
 {
-	
 }
