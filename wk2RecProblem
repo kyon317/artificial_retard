@@ -45,14 +45,22 @@ using namespace std;
 		return (length+width)*2;
 	}
 	void Rectangle::print(){
-		cout<<"the length is "<<length<<endl;
-		cout<<"the width is "<<width<<endl;
-		cout<<"the area is "<<getArea()<<endl;
-		cout<<"the parameter is "<<getParameter()<<endl;
+		cout<<"\tThe length is "<<length<<endl;
+		cout<<"\tThe width is "<<width<<endl;
+		cout<<"\tThe area is "<<getArea()<<endl;
+		cout<<"\tThe parameter is "<<getParameter()<<endl;
 	} 
 
 	int main()
 	{
-		Rectangle P;
-		P.print();
+		Rectangle P1,P2(0.5,0.5);
+		cout<<"Rec1:"<<endl;
+		P1.print();
+		cout<<endl;
+		cout<<"Rec2:"<<endl;
+		P2.print();
+		cout<<endl;
+		if(P1.getArea()>P2.getArea()) cout<<"Rec1 has bigger area."<<endl;
+		else if(P1.getArea()<P2.getArea()) cout<<"Rec2 has bigger area."<<endl;
+		else cout<<"Rec1&2 has the same area."<<endl;
 	}
