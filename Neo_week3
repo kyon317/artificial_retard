@@ -1,0 +1,254 @@
+
+///RationalNumber.h
+#include <iostream>
+using namespace std;
+
+class RationalNumber
+{
+private:
+	int a, b;
+	static int count;
+public:
+
+	//Constructors
+	RationalNumber();
+	RationalNumber(const int x, const int y);
+
+	//Getters
+	int getNumerator()const;
+	int getDenominator()const;
+	static int getCount();
+
+	//Setters
+	void setNumerator(const int&);
+	void setDenominator(const int&);
+
+	//Additional Member functions
+	double toDouble()const;
+	void standardize();
+	void reduce();
+	void print()const;
+	bool isEqual(const RationalNumber &)const;
+
+	//operator functions
+	RationalNumber operator+(const RationalNumber &)const;
+	RationalNumber operator+(const int &)const;
+	bool operator==(const int &)const;
+	bool operator==(const RationalNumber &)const;
+
+	RationalNumber operator-() const;
+	RationalNumber& operator++();
+	RationalNumber operator++(int DUMMY);
+	//Friend functions, no this pointer inside the functions
+	friend RationalNumber operator+(const int &,const RationalNumber &);
+	friend istream& operator>>(istream &,RationalNumber &);
+	friend ostream& operator<<(ostream &,RationalNumber &);
+};
+
+///RationalNumber.cpp
+#include "RationalNumber.h"
+#include <cmath>
+#include <iostream>
+
+using namespace std;
+
+int RationalNumber::count = 0;//Initialization of a static member variable
+int RationalNumber::getCount()
+{
+	return RationalNumber::count;
+}
+RationalNumber::RationalNumber()
+{
+	a=0;
+	b=1;
+	this->count++;
+}
+RationalNumber::RationalNumber(const int x,const int y)
+{
+	a=x;
+	if(y==0)
+		b=1;
+	else 
+		b=y;
+	standardize();
+	reduce();
+	this->count++;
+}
+int RationalNumber::getNumerator()const //tell the compilier its const
+{
+	return a;
+}
+int RationalNumber::getDenominator()const
+
+{
+	return b;
+}
+void RationalNumber::setNumerator(const int&x)
+{
+	this->a = x;
+	standardize();
+	reduce();
+}
+void RationalNumber::setDenominator(const int&y)
+{
+	//In case the denominator is being set to zero change it to 1. 
+	//This is just to make sure we always have a valid rational 
+	//number by design
+	if (y == 0)
+		this->b = 1;
+	else this->b = y;//this is a pointer,use ->
+	standardize();
+	reduce();
+}
+double RationalNumber::toDouble()const
+{
+	return static_cast<double>(a)/b;
+}
+//RationalNumber temp = *this; 
+void RationalNumber::standardize()
+{
+	if (getDenominator() < 0)
+	{
+	    a = -1*getNumerator();
+		b = -1*getDenominator();
+	}
+}
+
+void RationalNumber::reduce()
+{
+	int x = abs(getNumerator());
+	int y = abs(getDenominator());
+	int gcd = x > y ? x : y;	//start the gcd from the larger!
+	for (; gcd >= 1; gcd--)
+	{
+		if (x % gcd == 0 && y % gcd == 0)
+			break;
+	}
+	a = getNumerator() / gcd;
+	b = getDenominator() / gcd;
+}
+
+void RationalNumber::print()const
+{
+	cout << getNumerator() << "/" << getDenominator()<<endl;
+}
+
+bool RationalNumber::isEqual(const RationalNumber &r)const
+{
+	if(this->getNumerator()*r.getDenominator()==getDenominator()*r.getNumerator())
+		return true;
+	return false;
+}
+
+RationalNumber RationalNumber::operator+(const RationalNumber &r)const
+{
+	int a1 = this->getNumerator();
+	int b1 = this->getDenominator();
+	int a2 = r.getNumerator();
+	int b2 = r.getDenominator();
+	int n = a1*b2 + a2*b1;
+	int d = b1*b2;
+	RationalNumber answer(n,d);
+	answer.standardize();
+	answer.reduce();
+	return answer;
+}
+
+RationalNumber RationalNumber::operator+(const int &r)const
+{
+	RationalNumber temp(r,1);
+	return *this +temp;
+}
+
+bool RationalNumber::operator==(const RationalNumber &r)const
+{
+	if(this->isEqual(r))
+		return true;
+	return false;
+}
+
+bool RationalNumber::operator==(const int &r)const
+{
+	
+	RationalNumber Temp(r,1);
+	if(this->isEqual(Temp))
+		return true;
+	return false;
+}
+
+RationalNumber operator+(const int &x,const RationalNumber &r)
+{
+	RationalNumber temp1(x,1);
+	RationalNumber temp2(r.a,r.getDenominator());// you can access private variables
+	return temp1+temp2;// return r+x; 
+	// this will use other functions declared before
+	
+}
+
+RationalNumber RationalNumber::operator-() const
+{
+	RationalNumber ans(-1*this->getNumerator(),this->getDenominator());
+	return ans;
+}
+RationalNumber& RationalNumber::operator++()
+{
+	this->setNumerator(this->getNumerator()+this->getDenominator());
+	return *this;
+}
+RationalNumber RationalNumber::operator++(int DUMMY)
+{
+	RationalNumber temp = *this;
+	++(*this);
+	//this->setNumerator(this->getNumerator()+this->getDenominator());
+	return temp;
+}
+istream& operator>>(istream &stream,RationalNumber &r)
+{
+	int n,d;
+	cout<<"numerator:"<<endl;
+	stream>>n;
+	cout<<"denominator:"<<endl;
+	stream>>d;
+	r = RationalNumber(n,d);
+	return stream;
+}
+ostream& operator<<(ostream &stream,RationalNumber &r)
+{
+	stream<<r.getNumerator()<<" / "<<r.getDenominator();
+	return stream;
+}
+
+
+///MainProgramme
+#include <iostream>
+#include "RationalNumber.h"
+
+using namespace std;
+
+
+//from a const cannot call a non-const function
+int main()
+{
+RationalNumber r1, r2;
+//r2 = r1++;
+cin>>r1;
+cout<<r1<<endl;//r1.print();
+//cout<<r1.getNumerator()<<endl;
+//r1.reduce();
+//cout<<r1.getNumerator()<<endl;
+cin>>r2;
+cout<<r2<<endl;//r2.print();
+//cout<<r2.getNumerator()<<endl;
+RationalNumber r3 = ++r2;//r3 = r1.operator+(r2) left is the calling member
+cout<<r3<<endl;//r3.print();
+//cout<<r3.getNumerator()<<endl;
+RationalNumber r4 = -r3;
+cout<<r4<<endl;//r4.print();
+//cout<<r4.getNumerator()<<endl;
+//if(r3==1) cout<<"equal"<<endl;
+//else cout<<"not equal"<<endl;
+//system("Pause");
+cout<<RationalNumber::getCount()<<endl;
+///Unary Caller:the Right-hand one
+///Binary Caller:the Left-hand one
+}
