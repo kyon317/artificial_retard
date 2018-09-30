@@ -42,15 +42,28 @@ public:
 
 	bool operator==(const int &)const;
 	bool operator==(const RationalNumber &)const;
-
+	bool operator!=(const int &)const;
+	bool operator!=(const RationalNumber &)const;
+	bool operator>(const int &)const;
+	bool operator>(const RationalNumber &)const;
+	bool operator>=(const int &)const;
+	bool operator>=(const RationalNumber &)const;
+	bool operator<(const int &)const;
+	bool operator<(const RationalNumber &)const;
+	bool operator<=(const int &)const;
+	bool operator<=(const RationalNumber &)const;
 	RationalNumber operator-() const;
 	RationalNumber& operator++();
+	RationalNumber& operator--();
 	RationalNumber operator++(int DUMMY);
+	RationalNumber operator--(int DUMMY);
 	//Friend functions, no this pointer inside the functions
 	friend RationalNumber operator+(const int &,const RationalNumber &);
 	friend RationalNumber operator-(const int &,const RationalNumber &);
 	friend RationalNumber operator*(const int &,const RationalNumber &);
 	friend RationalNumber operator/(const int &,const RationalNumber &);
+	friend bool operator>(const int &,const RationalNumber &);
+	friend bool operator<(const int &,const RationalNumber &);
 
 
 	friend istream& operator>>(istream &,RationalNumber &);
@@ -152,6 +165,97 @@ bool RationalNumber::isEqual(const RationalNumber &r)const
 	return false;
 }
 
+//Boolean Opearators
+
+bool RationalNumber::operator==(const RationalNumber &r)const
+{
+	if(this->isEqual(r))
+		return true;
+	return false;
+}
+bool RationalNumber::operator==(const int &r)const
+{
+	
+	RationalNumber Temp(r,1);
+	if(this->isEqual(Temp))
+		return true;
+	return false;
+}
+bool RationalNumber::operator!=(const RationalNumber &r)const
+{
+	if(this->isEqual(r))
+		return false;
+	return true;
+}
+bool RationalNumber::operator!=(const int &r)const
+{
+	
+	RationalNumber Temp(r,1);
+	if(this->isEqual(Temp))
+		return false;
+	return true;
+}
+bool RationalNumber::operator>(const RationalNumber &r)const
+{
+	
+	if(this->toDouble()>r.toDouble()) 
+		return true;
+	return false;
+}
+bool RationalNumber::operator>(const int &x)const
+{
+	if(this->toDouble()>x) 
+		return true;
+	return false;
+}
+bool RationalNumber::operator<(const RationalNumber &r)const
+{
+	if((r>*this)||(r==*this))
+		return true;
+	return false;
+}
+bool RationalNumber::operator<(const int &x)const
+{
+	if((*this>x)||(*this==x))
+		return false;
+	return true;
+}
+bool RationalNumber::operator<=(const RationalNumber &r)const
+{
+	if(r>*this)
+		return false;
+	return true;
+}
+bool RationalNumber::operator<=(const int &x)const
+{
+	if(x>*this)
+		return false;
+	return true;
+}
+bool operator>(const int &x,const RationalNumber &r)
+{
+	if((r>x)&&(r!=x))
+		return false;
+	return true;
+}
+bool operator<(const int &x,const RationalNumber &r)
+{
+	if((r>x)||(r==x))
+		return true;
+	return false;
+}
+
+///Binary Opearators
+RationalNumber RationalNumber::operator/(const RationalNumber &r)const
+{
+	RationalNumber temp(this->getNumerator()*r.getDenominator(),this->getDenominator()*r.getNumerator());
+	return temp;
+}
+RationalNumber RationalNumber::operator/(const int &r)const
+{
+	RationalNumber temp(this->getNumerator(),this->getDenominator()*r);
+	return temp;
+}
 RationalNumber RationalNumber::operator+(const RationalNumber &r)const
 {
 	int a1 = this->getNumerator();
@@ -194,31 +298,6 @@ RationalNumber RationalNumber::operator*(const int &r)const
 	RationalNumber temp(this->getNumerator()*r,this->getDenominator());
 	return temp;
 }
-RationalNumber RationalNumber::operator/(const RationalNumber &r)const
-{
-	RationalNumber temp(this->getNumerator()*r.getDenominator(),this->getDenominator()*r.getNumerator());
-	return temp;
-}
-RationalNumber RationalNumber::operator/(const int &r)const
-{
-	RationalNumber temp(this->getNumerator(),this->getDenominator()*r);
-	return temp;
-}
-bool RationalNumber::operator==(const RationalNumber &r)const
-{
-	if(this->isEqual(r))
-		return true;
-	return false;
-}
-bool RationalNumber::operator==(const int &r)const
-{
-	
-	RationalNumber Temp(r,1);
-	if(this->isEqual(Temp))
-		return true;
-	return false;
-}
-
 RationalNumber operator+(const int &x,const RationalNumber &r)
 {
 	RationalNumber temp1(x,1);
@@ -239,7 +318,6 @@ RationalNumber operator/(const int &x,const RationalNumber &r)
 {
 	return r/x;
 }
-
 RationalNumber RationalNumber::operator-() const
 {
 	RationalNumber ans(-1*this->getNumerator(),this->getDenominator());
@@ -250,10 +328,22 @@ RationalNumber& RationalNumber::operator++()
 	this->setNumerator(this->getNumerator()+this->getDenominator());
 	return *this;
 }
+RationalNumber& RationalNumber::operator--()
+{
+	this->setNumerator(this->getNumerator()-this->getDenominator());
+	return *this;
+}
 RationalNumber RationalNumber::operator++(int DUMMY)
 {
 	RationalNumber temp = *this;
 	++(*this);
+	//this->setNumerator(this->getNumerator()+this->getDenominator());
+	return temp;
+}
+RationalNumber RationalNumber::operator--(int DUMMY)
+{
+	RationalNumber temp = *this;
+	--(*this);
 	//this->setNumerator(this->getNumerator()+this->getDenominator());
 	return temp;
 }
@@ -272,7 +362,6 @@ ostream& operator<<(ostream &stream,RationalNumber &r)
 	stream<<r.getNumerator()<<" / "<<r.getDenominator();
 	return stream;
 }
-
 
 ///MainProgramme
 #include <iostream>
@@ -302,6 +391,8 @@ cout<<"the forth number you enter is : "<<r4<<endl;//r4.print();
 //cout<<r4.getNumerator()<<endl;
 cout<<r4*3<<endl;
 cout<<r4/3<<endl;
+
+///Remarks
 ///Unary Caller:the Right-hand one
 ///Binary Caller:the Left-hand one
 }
