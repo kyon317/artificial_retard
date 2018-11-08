@@ -221,6 +221,8 @@ int main()
 	cout<<"Employee 4: "<<e4<<endl;
 	cout<<"Employee 5: "<<e5<<endl;
 	cout<<"Employee 6: "<<e6<<endl;
-
+	Employee*p = &m2;
+	cout<<*p<<endl;//This will cout only Employee information
 }
 ///C++ will execute the closest function
+///A pointer of any class only searches functions in that class
