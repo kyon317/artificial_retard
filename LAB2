@@ -1,0 +1,170 @@
+#include<iostream>
+#include<string>
+using namespace std;
+class Point
+{
+private:
+	float x,y;
+
+public:
+	Point();
+	Point(float newX,float newY);
+	float getX();
+	float getY();
+	void setX(float newX);
+	void setY(float newY);
+	void print();
+	int getQuadrant();
+	float getDistance();
+};
+	Point::Point()
+	{
+		setX(0.0);
+		setY(0.0);
+	}
+	Point::Point(float newX,float newY)
+	{
+		setX(newX);
+		setY(newY);
+	}
+	float Point:: getX()
+	{
+		return x;
+	}
+	float Point:: getY()
+	{
+		return y;
+	}
+	void Point:: setX(float newX)
+	{
+		x  = newX;
+	}
+	void Point:: setY(float newY)
+	{
+		y  = newY;
+	}
+	void Point:: print()
+	{
+		cout<<"("<<getX()<<","<<getY()<<")";
+	}
+int Point::getQuadrant()
+	{
+		if(x>0&&y>0) return 1;
+		if(x<0&&y>0) return 2;
+		if(x<0&&y<0) return 3;
+		if(x>0&&y<0) return 4;
+		return 0;
+	}
+float Point::getDistance()
+{
+	return sqrt(x*x+y*y);
+}
+
+class Course
+{
+private:
+	string name;
+	float test,midterm,final;
+	char letterGrade;
+public:
+	Course();
+	Course(string name);
+	Course(string name,float test,float midterm,float final);
+	void setName(string n);
+	void setTest(float t);
+	void setMidterm(float t);
+	void setFinal(float t);
+	string getName();
+	float getTest();
+	float getMidterm();
+	float getFinal();
+	char getLetterGrade();
+	void print();
+};
+
+char gradeCalculate(float test,float midterm,float final)
+{
+	float temp = 0.2*test+0.3*midterm+0.5*final;
+	if(temp >=90)return 'A';
+	else if(temp >=75)return 'B';
+	else if(temp >=60)return 'C';
+	else if(temp >=50)return 'D';
+	else return 'F';
+}
+
+Course::Course()
+{
+	setTest(0.0);
+	setMidterm(0.0);
+	setFinal(0.0);
+	letterGrade = 'F';
+}
+Course::Course(string name)
+{
+	setName(name);
+	setTest(0.0);
+	setMidterm(0.0);
+	setFinal(0.0);
+	letterGrade = 'F';
+}
+Course::Course(string name,float test,float midterm,float final)
+{
+	setName(name);
+	setTest(test);
+	setMidterm(midterm);
+	setFinal(final);
+	letterGrade = gradeCalculate(test,midterm,final);
+}
+void Course::setName(string n)
+{
+	name = n;
+}
+void Course::setTest(float t)
+{
+	test = t;
+	letterGrade = gradeCalculate(test,midterm,final);
+}
+void Course::setMidterm(float t){
+	midterm = t;
+	letterGrade = gradeCalculate(test,midterm,final);
+}
+void Course::setFinal(float t){
+	final = t;
+	letterGrade = gradeCalculate(test,midterm,final);
+}
+string Course::getName()
+{
+	return name;
+}
+float Course::getTest()
+{
+	return test;
+}
+float Course::getMidterm()
+{
+	return midterm;
+}
+float Course::getFinal()
+{
+	return final;
+}
+char Course::getLetterGrade()
+{
+	return letterGrade;
+}
+
+void Course::print()
+{
+
+	cout<<name<<"\t\t"<<test<<"\t\t"<<midterm<<"\t\t"<<final<<"\t\t"<<letterGrade<<endl;
+}
+int main()
+{
+	Course A("Yoda",90,100,95);
+	Course B("DonaldTrump");
+	Course C("Nobody",100,20,35);
+	cout<<"Name\t\tTest\t\tMidterm\t\tFinal\t\tGrade"<<endl;
+	A.print();
+	B.print();
+	C.print();
+}

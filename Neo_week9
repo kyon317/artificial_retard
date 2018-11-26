@@ -1,0 +1,228 @@
+#pragma once //this will only complie once
+#include<iostream>
+#include<string>
+using namespace std;
+
+class Employee
+{
+private:
+	string firstName,lastName,id;
+public:
+	//Constructors
+	Employee();
+	Employee(const string&,const string&,const string&);
+	Employee(const Employee &e);
+	//Assignment Operator
+	Employee& operator = (const Employee &);
+	//Getters
+	string getFirstName()const;
+	string getLastName()const;
+	string getId()const;
+	//Setters
+	void setFirstName(const string&);
+	void setLastName(const string&);
+	void setId(const string&);
+	//Friend functions
+	friend ostream& operator <<(ostream &outputStream,const Employee &e);
+	friend istream& operator >>(istream &inputStream, Employee &e);
+};
+
+//////////////////////////////
+#pragma once //this will only complie once
+#include "Employee.h"
+
+	//Constructors
+Employee::Employee()
+{
+	this->setFirstName("");
+	this->setLastName("");
+	this->setId("");
+}
+Employee::Employee(const string&f,const string&l,const string&id)
+{
+	this->setFirstName(f);
+	this->setLastName(l);
+	this->setId(id);
+}
+Employee::Employee(const Employee &e)
+{
+	this->setFirstName(e.getFirstName());
+	this->setLastName(e.getLastName());
+	this->setId(e.getId());
+}
+	//Assignment Operator
+Employee& Employee::operator = (const Employee &e)
+{
+	if(this == &e)
+		return *this;
+	this->setFirstName(e.getFirstName());
+	this->setLastName(e.getLastName());
+	this->setId(e.getId());
+	return *this;
+}
+	//Getters
+string Employee::getFirstName()const
+{
+	return this->firstName;
+}
+string Employee::getLastName()const
+{
+	return this->lastName;
+}
+string Employee::getId()const
+{
+	return this->id;
+}
+	//Setters
+void Employee::setFirstName(const string&firstName)
+{
+	this->firstName = firstName;
+}
+void Employee::setLastName(const string&lastName)
+{
+	this->lastName = lastName;
+}
+void Employee::setId(const string&id)
+{
+	this->id = id;
+}
+	//Friend functions
+ostream& operator <<(ostream &outputStream,const Employee &e)
+{
+	outputStream<<e.getFirstName()<<" "<<e.getLastName()<<" "<<e.getId();
+	return outputStream;
+}
+istream& operator >>(istream &inputStream, Employee &e)
+{
+	string s;
+	cout<<"\tEnter first name: ";
+	inputStream>>s;
+	e.setFirstName(s);
+	cout<<"\tEnter last name: ";
+	inputStream>>s;
+	e.setLastName(s);
+	cout<<"\tEnter ID: ";
+	inputStream>>s;
+	e.setId(s);
+	return inputStream;
+}
+
+///////////////////////
+#pragma once
+#include "Employee.h"
+//Constructors are not inherited
+class Manager:public Employee
+{
+private:
+	Employee secretary;
+public:
+	//Constructors
+	Manager();
+	Manager(const string&,const string&,const string&,const Employee &);
+	Manager(const Manager&);
+	//Operator member functions
+	Manager& operator  = (const Manager &);
+	//Getters
+	Employee getSecretary()const;
+	//Setters
+	void setSecretary(const Employee &);
+	//Friend functions
+	friend ostream& operator <<(ostream &outputStream,const Manager &m);
+	friend istream& operator >>(istream &inputStream, Manager &m);
+};
+
+//////////////////////
+#include "Manager.h"
+
+
+Manager::Manager() : Employee()//Invoking default constructor of base class
+{
+	this->setSecretary(Employee());
+}
+Manager::Manager(const string&f,const string&l,const string&id,const Employee &s):Employee(f,l,id)
+{
+	this->setSecretary(s);
+}
+Manager::Manager(const Manager&m):Employee(m)// same (m.getFirstName(),m.getLastName(),m.getId())
+{
+	this->setSecretary(m.getSecretary());
+}
+Employee Manager::getSecretary()const
+{
+	return this->secretary;
+}
+void Manager::setSecretary(const Employee &secretary)
+{
+	this->secretary = secretary;
+}
+
+Manager& Manager::operator= (const Manager &m)
+{
+	if(this== &m)
+		return *this;
+	this->Employee::operator=(m);
+	//Same as Employee temp(m.getFirstName(),m.getLastName(),m.getId());
+	//this->Employee::operator=(temp);
+	this->setSecretary(m.getSecretary());
+	return *this;
+}
+
+ostream& operator <<(ostream &outputStream, const Manager &m)
+{
+	outputStream<<static_cast<Employee>(m)<<endl;
+	//Same as outputStream<<m.getFirstName()<<" "<<m.getLastName()<<" "<<m.getId()<<" "<<endl;
+	outputStream<<"\t\tSecretary: ";
+	outputStream<<m.getSecretary();
+	return outputStream;
+}
+
+istream& operator >>(istream &inputStream,Manager &m)
+{
+	Employee temp,secretary;
+	cout<<"Reading in the Manager information"<<endl;
+	inputStream >>temp;//calling the inputstream operator in the base
+	cout<<"Reading in the Secretary information"<<endl;
+	inputStream>>secretary;
+	m = Manager(temp.getFirstName(),temp.getLastName(),temp.getId(),secretary);
+	return inputStream;
+
+}
+
+//////TEST MAIN//////////
+//#include"Employee.h"
+#include"Manager.h"
+
+int main()
+{
+	Employee e1,e2("Alice","Johnson","AJ2016");
+	cout<<"Employee 1: "<<e1<<endl;
+	cout<<"Employee 2: "<<e2<<endl;
+	Employee e3 = e2;
+	cout<<"Reading in Employee 1"<<endl;
+	cin>>e1;
+	cout<<"Employee 1: "<<e1<<endl;
+	cout<<"Employee 2: "<<e2<<endl;
+	cout<<"Employee 3: "<<e3<<endl;
+	cout<<endl;
+
+	Manager m1,m2("Joe","Mark","JM1202",e2);
+	cout<<"Manager 1: "<<m1<<endl;
+	cout<<"Manager 2: "<<m2<<endl;
+	Manager m3(m2);
+	cout<<"Reading in Manager 1"<<endl;
+	cin>>m1;
+	//cout<<"Manager 1: "<<m1<<endl;
+	//cout<<"Manager 2: "<<m2<<endl;
+	//cout<<"Manager 3: "<<m3<<endl;
+	Employee e4  = m2;
+	Employee e5;
+	e5 = m3;
+	Employee e6  = static_cast<Employee>(m1);
+	cout<<"Employee 4: "<<e4<<endl;
+	cout<<"Employee 5: "<<e5<<endl;
+	cout<<"Employee 6: "<<e6<<endl;
+	Employee*p = &m2;
+	cout<<*p<<endl;//This will cout only Employee information
+}
+///C++ will execute the closest function
+///A pointer of any class only searches functions in that class

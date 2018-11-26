@@ -1,0 +1,188 @@
+#include<iostream>
+#include<cmath>
+using namespace std;
+
+//cmpt135 
+//class#4
+
+/*STRUCTURE DECLARATION
+
+Syntax (Structure Declaration)
+
+struct StructureName
+{
+data_type member_1;
+data_type member_2;
+⁞
+data_type member_n;
+};
+
+*/
+
+struct Point//Capital Letter*Struct*
+{
+	double x;
+	double y;
+};
+
+///functions of typical Struct example
+void test1(Point P){
+	//double Ans = sqrt(P.x*P.x+P.y*P.y); 
+	double Ans = sqrt(pow(P.x,2.0)+pow(P.y,2.0));
+	cout<<Ans<<endl;
+}
+
+void test1(){
+	//int x = 7;
+	Point p1;
+	Point &p1Alias = p1;//this will give p1Alias the same address of p1
+
+	//using p1 variable .
+	p1.x = 1.0;
+	p1.y = 2.0;
+	cout<<p1.x<<endl<<p1.y<<endl;
+
+	cout<<"*************\n";
+	
+	//using p1Alias
+	p1Alias.x = 4.0;
+	p1Alias.y = 3.0;
+	cout<<p1.x<<endl<<p1.y<<endl;
+	
+	//cout<<x;
+	test1(p1);
+}
+/* 
+Syntax (Access operator for pointer to struct)
+1) pointerToStruct->member_variable
+2) (*pointerToStruct).member_variable
+*/
+void test2(struct Point p1){
+	Point*p1Ptr;
+	p1Ptr = &p1;
+	p1Ptr->x = 0.0;
+	p1Ptr->y = 0.0;
+	cout<<p1.x<<endl;
+	cout<<p1.y<<endl;
+	test1(*p1Ptr);
+}
+
+
+/*
+pass by pointer:*pPtr
+pass by value:p1
+pass by reference:&pAlias
+*/
+void readPoint(Point *pPtr){
+	cin>>pPtr->x;
+	cin>>pPtr->y;
+}
+void printPoint(Point p){
+	cout<<"the obj is("<<p.x<<","<<p.y<<")"<<endl;
+}
+double distanceFromOrigin(Point &pAlias){
+	double d = sqrt(pow(pAlias.x,2.0)+pow(pAlias.y,2.0));
+	return d;
+}
+
+//Return Structures
+Point readPoint(){
+	Point P;
+	cout<<"Enter X"<<endl;
+	cin>>P.x;
+	cout<<"Enter Y"<<endl;
+	cin>>P.y;
+	return P;
+}
+
+//Array of Struct
+/*
+Syntax (array of structs)
+StructDataType arrayName[constantValue] //static array
+Point P[10];
+
+StructDataType *arrayName = new StructDataType[arraySize] //dynamic array
+Point*P = new Point[10]; 
+*/
+double distanceBetweenPoints(Point &p1,Point &p2){
+	double x_diff = p1.x - p2.x;
+	double y_diff = p1.y - p2.y;
+	double d = sqrt(pow(x_diff,2.0)+pow(y_diff,2.0));
+	return d;
+}
+
+//Struct as Member Variables
+struct Line{
+	Point start,end;
+};
+
+double lineSlope(Line line){
+	//assume the line is not vertical 
+	double slope = (line.end.y - line.start.y)/(line.end.x - line.start.x);
+	return slope;
+}
+int main()
+{
+	/* Source Codes for Two Point Distance
+	int size;
+	cout<<"size"<<endl;
+	cin>>size;
+	Point*p = new Point[size];
+	for(int i = 0;i<size;i++)
+		p[i] = readPoint();
+	double largestdistance = 0.0;
+	int index1 = 1,index2= 1;
+	for(int i = 0;i<size;i++)
+	{
+		for(int j = i+1;j<size;j++)
+		{
+		double distance = distanceBetweenPoints(p[i],p[j]);
+		if(distance > largestdistance)
+			{
+			largestdistance = distance;
+			index1 = i+1;
+			index2 = j+1;
+			}
+		}
+	}
+	cout<<"the two farthest point :"<<index1<<" and "<<index2<<endl;
+	cout<<"distance is "<<largestdistance<<endl;
+	*/
+	//Source Codes for parallel lines problem
+	int size;
+	cout<<"size"<<endl;
+	cin>>size;
+	Line*line = new Line[size];
+	for(int i = 0;i<size;i++){
+		cout<<"Enter the start point"<<endl;
+		line[i].start = readPoint();
+		cout<<"Enter the end point"<<endl;
+		line[i].end = readPoint();
+	}
+	//test1();
+	//Point p1,p2;
+	//p1 = readPoint();
+	//p2=p1;//Assign the same struct type data is workable
+	//test2(p1);
+	//readPoint(&p1);
+	//printPoint(p2);
+	//test1(p1);
+	//cout<<"the distance from origin is "<<distanceFromOrigin(p1)<<endl;
+	double slope;
+		for(int i = 0;i<size;i++)
+	{
+		slope = lineSlope(line[i]);
+		for(int j = i+1;j<size;j++)
+		{
+		double slope2 = lineSlope(line[j]);
+		if(slope2 == slope)
+			{
+				cout<<"the two line "<<i<<" and "<<j<<"are paralleled"<<endl;
+				cout<<"the slope is "<<slope<<endl;
+			}
+		}
+	}
+}
+
+// DATA ENCAPSULATION
+// x,y inside p1,the hidden member is known as data encapsulation. 

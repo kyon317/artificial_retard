@@ -1,0 +1,189 @@
+#include <iostream>
+#include<string>
+using namespace std;
+template<class K,class V>
+class Map {
+private:
+    K *arr1;
+    V *arr2;
+    int size;
+public:
+
+    Map()
+    {
+        this->size = 0;
+    }
+    Map(const K*A,const V*B,const int &size)
+    {
+        this->size = size;
+        if(this->size >0)
+        {
+            this->arr1 = new K[size];
+            this->arr2 = new V[size];
+            for(int i = 0;i<size;i++)
+            {
+                this->arr1[i] = A[i];
+                this->arr2[i] = B[i];
+            }
+        }
+    }
+
+    Map(const Map<K,V>&m)
+    {
+        
+        if(m.getSize()>0)
+        {
+            this->~Map<K, V>();
+            this->size = m.getSize();
+            for (int i = 0; i<this->size; i++) {
+                this->arr1[i]=m.arr1[i];
+                this->arr2[i]=m.arr2[i];
+            }
+        }
+    }
+    int getSize()const
+    {
+        return this->size;
+    }
+
+
+    Map<K,V>&operator = (const Map<K,V>&m)
+    {
+		if(this==&m)
+			return *this;
+
+        if (this!=&m) 
+		{
+			this->~Map();
+            this->size = m.getSize();
+			this->arr1 = new K[this->size];
+			this->arr2 = new V[this->size];
+				for (int i = 0; i<m.getSize(); i++) 
+				{
+					this->arr1[i] = m.arr1[i];
+					this->arr2[i] = m.arr2[i];
+                }
+        }
+        return *this;
+    }
+    ~Map()
+    {
+        if (this->size>0) {
+            this->size = 0;
+            delete[]this->arr1;
+            delete[]this->arr2;
+        }
+        
+    }
+
+    V& operator[](const K &key)const
+    {
+        for (int i = 0; i<this->size; i++)
+            if (this->arr1[i]==key)
+                return arr2[i];
+
+    }
+
+    K& operator[](const V &value)const
+    {
+        for (int i = 0; i<this->size; i++)
+            if (this->arr2[i]==value)
+                return arr1[i];
+
+    }
+    
+    void append(const K &key,const V &value)
+    {
+        K*temp1 = new K[size+1];
+        V*temp2 = new V[size+1];
+        for (int i=0; i<this->size; i++) {
+            temp1[i] = this->arr1[i];
+            temp2[i] = this->arr2[i];
+        }
+        temp1[size] = key;
+        temp2[size] = value;
+        this->arr1 = temp1;
+        this->arr2 = temp2;
+        this->size += 1;
+    }
+
+    int countValues(const K &key)const
+	{
+		int ans = 0;
+		for(int i = 0;i<this->getSize();i++)
+		{
+			if(this->arr1[i]==key)
+				ans++;
+		}
+		return ans;
+	}
+
+	double* getValues(const K &key)const
+	{
+		double*ans = new double[countValues(key)];
+		int flag = 0;
+		for(int i = 0;i<this->getSize();i++)
+		{
+			if(this->arr1[i]==key)
+			{
+				ans[flag] = this->arr2[i];
+				flag++;
+			}
+		}
+		return ans;
+	}
+    template<class K,class V>
+    friend ostream& operator << (ostream &out,const Map<K,V>&m)
+    {
+        if (m.getSize()>0)
+        {
+            for (int i = 0; i<m.getSize(); i++) 
+			{
+				cout<<m.arr1[i]<<"\t"<<m.arr2[i]<<endl;
+            }
+        }
+        else
+            cout<<"";
+        return out;
+    }
+};
+int main() 
+{
+	//Let us seed the random number generator to a fixed integer so that we all get the same output in Visual Studio
+    srand(5);
+
+    //The following array lists all milk products available in a given city
+    int diaryProductSize = 8;
+    string diaryProduct[] = {"Butter", "Cheese", "Milk", "Yugort", "Cream", "Amasi", "Basundi", "Feta"};
+
+    //Let us create a map listing these diary products and their prices given by different farmers
+    Map<string, double> m;
+
+    int n = rand() % 20 + 40;
+    for (int i = 0; i < n; i++)
+    {
+        string product = diaryProduct[rand() % diaryProductSize];
+        double price = 1.0 * rand() / RAND_MAX * 5 + 2;
+        m.append(product, price);
+    }
+
+    //Let us print our map
+    cout << "The map created is... " << endl << m << endl << endl;
+
+    //Let us compute and print all the prices Cheese in the city market
+    //Step 1. Count how many farmers are providing Cheese to the city
+    int countCheese = m.countValues("Cheese");
+    //Step 2. Find all Cheese prices in the map and return them in a dynamic array
+    double *cheesePricesArray = m.getValues("Cheese");
+    //Step 3. Print all the Cheese prices
+    cout << endl << "Here are the different prices of Cheese in the city from different farmers..." << endl;
+    for (int i = 0; i < countCheese; i++)
+        cout << cheesePricesArray[i] << endl;
+    cout << endl;
+
+    //Delete the dynamic array
+    delete[] cheesePricesArray;
+
+    system("Pause");
+    return 0;
+}
