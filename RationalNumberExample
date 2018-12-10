@@ -1,0 +1,124 @@
+
+///HeaderFile
+#pragma once
+class rationalnumber
+{
+private :
+	int a,b;
+public:
+	rationalnumber();
+	rationalnumber(int x);
+	rationalnumber(int x,int y);
+
+	int getNumerator();
+	int getDenominator();
+
+	void setNumerator(int x);
+	void setDenominator(int y);
+
+	double toDouble();
+	void standardize();
+	void reduce();
+
+	void print();
+};
+
+/************************************/
+
+///CPP For the Header
+#include <iostream>
+#include "rationalnumber.h"
+#include <cmath>
+using namespace std;
+
+rationalnumber::rationalnumber()
+{
+	setNumerator(0);
+	setDenominator(1);
+}
+rationalnumber::rationalnumber(int x)
+{
+	setNumerator(x);
+	setDenominator(1);
+}
+
+rationalnumber::rationalnumber(int x,int y)
+{
+	setNumerator(x);
+	setDenominator(y);
+}
+int rationalnumber::getNumerator()
+{
+	return a;
+}
+int rationalnumber::getDenominator()
+{
+	return b;
+}
+
+void rationalnumber::setNumerator(int x)
+{
+	a=x;
+}
+void rationalnumber::setDenominator(int y)
+{
+	if(y!=0)b=y;
+}
+
+double rationalnumber::toDouble()
+{
+	return static_cast<double>(getNumerator())/getDenominator();
+}
+
+void rationalnumber::standardize()
+{
+	if(getDenominator()<0){
+		setNumerator(-1*getNumerator());
+		setDenominator(-1*getDenominator());
+	}
+}
+
+void rationalnumber::reduce()
+{
+	int x = abs(getNumerator());
+	int y = abs(getDenominator());
+	int gcd = x>y?x:y; //start GCD from the larger.
+	for(;gcd>=1;gcd--)
+	{
+		if(x%gcd==0&&y%gcd==0) break;
+	}
+	setNumerator(getNumerator()/gcd);
+	setDenominator(getDenominator()/gcd);
+}
+
+void rationalnumber::print()
+{
+	cout<<getNumerator()<<"/"<<getDenominator()<<endl;
+}
+
+/************************************/
+
+///Main Programme
+#include<iostream>
+#include "rationalnumber.h"
+using namespace std;
+
+int main()
+{
+	rationalnumber r1,r2(3),r3(5,-15);
+	cout<<"r1"<<endl;
+	r1.print();
+	cout<<"r2"<<endl;
+	r2.print();
+	cout<<"r3"<<endl;
+	r3.print();
+
+	r3.standardize();
+	cout<<"nominator is "<<r3.getNumerator()<<endl;
+	cout<<"denominator is "<<r3.getDenominator()<<endl;
+	r3.setNumerator(0);
+	r3.reduce();
+	cout<<"reduce r3 is "<<endl;
+	r3.print();
+	cout<<"in double "<<r3.toDouble()<<endl;
+}
