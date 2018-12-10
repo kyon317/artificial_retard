@@ -1,0 +1,207 @@
+#include<iostream>
+class Node
+{
+private:
+	int data;
+	Node*link;
+public:
+	//Constructors
+	Node();
+	Node(const int&data,Node*link);
+	//Accessors
+	int getData() const;
+	Node*getLink()const;
+	//Setters
+	void setData(const int&data);
+	void setLink(Node*link);
+};
+typedef Node* NodePtr;
+
+
+///////////////
+
+#include "Node.h"
+
+	//Constructors
+Node::Node():data(0),link(nullptr)
+{
+	
+}
+Node::Node(const int&data,Node*link)
+{
+	this->data = data;
+	this->link = link;
+}
+	//Accessors
+int Node::getData() const
+{
+	return this->data;
+}
+Node* Node::getLink()const
+{
+	return this->link;
+}
+	//Setters
+void Node::setData(const int&data)
+{
+	this->data = data;
+}
+void Node::setLink(Node*link)
+{
+	this->link = link;
+}
+
+////
+#include"Node.h"
+using namespace std;
+
+void head_insert(NodePtr&h,const int &d)
+{
+	cout<<endl<<"Inserting integer"<<d<<" with head_insert"<<endl;
+	NodePtr node = new Node();
+	node->setData(d);
+	node->setLink(h);
+	h = node;
+}
+void insert_after(NodePtr &n1,const int &d)
+{
+	if(n1==nullptr)
+	{
+		cout<<"Sorry not Found"<<endl;
+		return;
+	}
+	else
+	{
+		cout<<"Insert"<<d<<"after node"<<n1->getData()<<endl;
+		NodePtr n2 = new Node();
+		n2->setData(d);
+		n2->setLink(n1->getLink());
+		n1->setLink(n2);
+	}
+}
+
+void print_linked_list_recursive(const NodePtr &h)//recursivel
+{
+	if(h==nullptr){
+		cout<<endl;
+		return;
+	}
+	else
+	{
+		print_linked_list_recursive(h->getLink());
+		cout<<h->getData() << "   ";
+	}
+	
+}
+
+bool remove_node(NodePtr &h,const int &d)
+{
+	cout<<"Removing a node whose data is "<<d<<endl;
+	if(h==nullptr)
+		return false;
+	else if(h->getData()==d)
+	{
+		NodePtr temp = h;
+		h=h->getLink();
+		delete temp;
+		return true;
+	}
+	else
+	{
+		NodePtr n1,n2;
+		n1 = h->getLink();
+		n2 = h;
+		while(n1!=nullptr)
+		{
+			if(n1->getData()==d)
+			{
+				n2->setLink(n1->getLink());
+				delete n1;
+				return true;
+			}
+			else
+			{
+				n1 = n1->getLink();
+				n2 = n2->getLink();
+			}
+		}
+		return false;
+	}
+}
+/*
+void print_linked_list(const NodePtr &h)
+{
+	//Traverse Program 
+	cout<<endl<<"Traversing the list: "<<endl;
+	if(h==nullptr){
+		cout<<"This is empty"<<endl;
+		return;
+	}
+	NodePtr temp = h;
+	while(temp!=nullptr)
+	{
+		cout<<temp->getData()<<"\t"<<endl;
+		temp = temp->getLink();
+	}
+	cout<<endl;
+}
+*/
+NodePtr search_node(const NodePtr &h,const int &d)
+{
+	NodePtr temp = h;
+	int test = 0;
+	while(temp!=nullptr)
+	{
+		if(temp->getData()==d)
+		{
+			test++;
+			cout<<"It takes "<<test<<" times."<<endl;
+			return temp;
+		}
+		else
+		{
+			test++;
+			temp = temp->getLink();
+		}
+	}
+	cout<<"It takes "<<test<<" times."<<endl;
+	return nullptr;
+}
+int main()
+{
+	//this Program will create a linked list with one node
+	//creating the head ptr
+	NodePtr h = nullptr;//initialization
+
+
+		int n =6;
+	for(int i = 1;i<=n;i++)
+		head_insert(h,i);
+	print_linked_list_recursive(h);
+
+	int x = 0;
+	NodePtr n1 = search_node(h,x);
+	if(n1 == nullptr)
+		cout<<"Not found"<<endl;
+	else
+		cout<<x<<"is Found"<<endl;
+}
+
+//If a linked list has no node at all, 
+//it is commonly referred to as empty linked list.
+//LIFO last in first out
+
+///Original main
+	//create the new node,set its data and link parts then assign its memory address to h
+	//NodePtr node = new Node(); //instead of using Node node which would release the memories after it goes out
+
+	//set data
+	/*
+	int d;
+	cout<<"Please enter an integer:";
+	cin>>d;
+	node->setData(d);
+	// set link part of the new node
+	node->setLink(nullptr);//give the last node nullptr
+	h = node;//set h pointing to the first node
+	*/

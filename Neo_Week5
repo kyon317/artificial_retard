@@ -1,0 +1,161 @@
+//Header file
+#include<iostream>
+using namespace std;
+
+class SmartArray
+{
+private:
+	int *A;
+	int size;
+
+public:
+	//Constructors
+	SmartArray();
+	SmartArray(const int*A,const int &size);
+	SmartArray(const SmartArray &L);//Deep Copy
+	//Getters,setters,operators,and others
+	int getSize() const;
+	int& operator[](const int &index)const;
+	void append(const int &e);
+	friend ostream& operator<<(ostream &outputStream, const SmartArray &L);
+	
+	//Destructor
+	~SmartArray();
+
+	//Assignment Operator
+	SmartArray& operator=(const SmartArray&);
+};
+
+//Implmentation
+#include "SmartArray.h"
+
+SmartArray::SmartArray()
+{
+	this->size = 0;
+}
+SmartArray::SmartArray(const int*A,const int &size)
+{
+	this->size = size;
+	if(this->getSize()>0)
+	{
+		this->A = new int [this->getSize()];
+		for(int i = 0;i<this->getSize();i++)
+			this->A[i] = A[i];
+	}
+}
+
+SmartArray::SmartArray(const SmartArray &L)//Copy constructor
+{
+	this->size = L.getSize();
+	if(this->getSize()>0)
+	{
+		this->A = new int[this->getSize()];
+		for(int i = 0;i<this->getSize();i++)
+			this->A[i] = L[i];
+	}
+}
+
+	//Getters,setters,operators,and others
+int SmartArray::getSize() const
+{
+	return this->size;
+}
+int& SmartArray:: operator[](const int &index)const
+{
+	if(index>=0&&index < this->getSize())
+		return this->A[index];
+	else
+	{
+		cout<<"error! out of bound!\n";
+		system("exit");
+	}
+}
+
+void SmartArray::append(const int &e)
+{
+		int*temp = new int [this->getSize()+1];
+		for(int i = 0;i<this->getSize()+1;i++)
+	{
+			temp[i] = this->A[i];
+	}
+		temp[this->getSize()] = e;
+		if(this->getSize()>0)
+			delete[] this->A;
+		this->A = temp;
+		this->size += 1;
+}
+
+ostream& operator<<(ostream &outputStream, const SmartArray &L)
+{
+	outputStream<<" [ ";
+	for(int i = 0;i<L.getSize()-1;i++)
+		outputStream << L[i]<<" , ";
+	if(L.getSize()>0)
+		outputStream<<L[L.getSize()-1];
+	outputStream<<" ] ";
+	return outputStream;
+}
+
+SmartArray::~SmartArray()
+{
+	if(this->getSize()>0)
+	{
+		delete[] this->A;
+		this->size = 0;
+	}
+}
+SmartArray& SmartArray::operator=(const SmartArray&L)
+{
+	if(this==&L)//same to if(&(*this)==&L)
+		return *this;
+	this->~SmartArray();
+	this->size = L.getSize();
+	if(this->size > 0)
+	{
+		this->A = new int[this->getSize()];
+		for(int i = 0;i<this->getSize();i++)
+			this->A[i] = L[i];
+	}
+	return *this;
+}
+
+//MainProgram
+#include "SmartArray.h"
+
+int main()
+{
+	SmartArray L1;
+	cout<<"Default SmartArray"<<L1<<endl;
+	int *x = new int [5];
+	x[0] = 0;x[1] = 0;x[2] = 0;x[3] = 9;
+	SmartArray L2(x,4);
+	cout<<"Non Default SmartArray"<<L2<<endl;
+
+	//Test Index Out of Bound
+	//cout<<L1[0]<<endl;
+	
+	//Use Default cpyConstructor to copy L2 to L3, this would let 
+	SmartArray L3 = L2;
+	cout<<"L3 is "<<L3<<endl;
+
+	//Test Append
+	//L1.append(53);
+	//Modify an element of L3
+
+	SmartArray L4,L5,L6;
+	L4 = L3;//By default it's still shallow copy 
+	L3[1] = 9090;
+	cout<<"L3 is now "<<L3<<endl;
+	L4[2] = 1994;
+	cout<<"L4 is now "<<L4<<endl;
+	L3= L3;//this will destroy L3 and output[] if without if statement
+	cout<<"L3 is now "<<L3<<endl;
+	L6 = L5 = L4;//return value also allows chain assignment 
+				 //BUT NOT IN DECLARATION
+	cout<<"L5 is now "<<L5<<endl;
+	cout<<"L6 is now "<<L6<<endl;
+	//L1.~SmartArray();//it would be automatically called when exit
+	//L2.~SmartArray();
+	//L3.~SmartArray();
+	//cout<<L2<<endl;
+}

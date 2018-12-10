@@ -1,0 +1,143 @@
+//
+//  main.cpp
+//  lab12
+//
+//  Created by VINCENT 胡 on 2018-11-22.
+//  Copyright © 2018 VINCENT 胡. All rights reserved.
+//
+
+#include <iostream>
+#include<string>
+using namespace std;
+template<class K,class V>
+class Map {
+private:
+    K *arr1;
+    V *arr2;
+    int size;
+public:
+    Map()
+    {
+        this->size = 0;
+    }
+    Map(const K*A,const V*B,const int &size)
+    {
+        this->size = size;
+        if(this->size >0)
+        {
+            this->arr1 = new K[size];
+            this->arr2 = new V[size];
+            for(int i = 0;i<size;i++)
+            {
+                this->arr1[i] = A[i];
+                this->arr2[i] = B[i];
+            }
+        }
+    }
+    
+    Map(const Map<K,V>&m)
+    {
+        
+        if(m.getSize()>0)
+        {
+            this->~Map<K, V>();
+            this->size = m.getSize();
+            for (int i = 0; i<this->size; i++) {
+                this->arr1[i]=m.arr1[i];
+                this->arr2[i]=m.arr2[i];
+            }
+        }
+    }
+    
+    int getSize()const
+    {
+        return this->size;
+    }
+    //template <class V>
+    K getKey(const int &i)const
+    {
+        return this->arr1[i];
+    }
+    //template <class K>
+    V getValue(const int &i)const
+    {
+        return this->arr2[i];
+    }
+    Map<K,V>&operator = (const Map<K,V>&m)
+    {
+        if (this!=&m) {
+            this->size = m.getSize();
+            if (this->size>0) {
+                for (int i = 0; i<this->size; i++) {
+                    this->arr1[i] = m.arr1[i];
+                    this->arr2[i] = m.arr2[i];
+                }
+            }
+        }
+        return *this;
+    }
+    ~Map()
+    {
+        if (this->size>0) {
+            this->size = 0;
+            delete[]this->arr1;
+            delete[]this->arr2;
+        }
+        
+    }
+    
+    V& operator[](const K &key)const
+    {
+        for (int i = 0; i<this->size; i++)
+            if (this->arr1[i]==key)
+                return arr2[i];
+        exit(0);
+    }
+    
+    K& operator[](const V &value)const
+    {
+        for (int i = 0; i<this->size; i++)
+            if (this->arr2[i]==value)
+                return arr1[i];
+        exit(0);
+    }
+    
+    void append(const K &key,const V &value)
+    {
+        K*temp1 = new K[size+1];
+        V*temp2 = new V[size+1];
+        for (int i=0; i<this->size; i++) {
+            temp1[i] = this->arr1[i];
+            temp2[i] = this->arr2[i];
+        }
+        temp1[size] = key;
+        temp2[size] = value;
+        this->arr1 = temp1;
+        this->arr2 = temp2;
+        this->size += 1;
+    }
+    
+    //template<class K,class V>
+    friend ostream& operator << (ostream &out,const Map<K,V>&m)
+    {
+        if (m.getSize()>0)
+        {
+            for (int i = 0; i<m.getSize(); i++) {
+                cout<<m.getKey(i)<<"\t"<<m.getValue(i)<<endl;
+            }
+        }
+        else
+            cout<<"";
+        return out;
+    }
+};
+int main() {
+    Map<string, double> m1;
+    cout << "An empty map m1 is " << endl << m1 << endl;
+    string A[] = {"sara", "John", "James", "Peter", "Kate"};
+    double B[] = {87.5, 75.0, 98.0, 65.5, 70};
+    Map<string, double> m2(A, B, 5);
+    cout << "A non-empty map m2 is " << endl << m2 << endl;
+    cout << "m2[\"John\"] is " << m2["John"] << endl;
+    cout << "m2[65.5] is " << m2[65.5] << endl;
+}
