@@ -1,0 +1,384 @@
+/*
+ * List.h
+ *
+ * Class Description: List data collection ADT.
+ * Class Invariant: Data collection with the following characteristics:
+ *                   - Each element is unique (no duplicates).
+ *                   - (What other characteristic does our List have?)
+ *
+ * Author:Jiaqing Hu
+ * Date:2019/01/20
+ */
+
+#pragma once
+
+ // You can add #include statements if you wish.
+#include <string>
+#include "Patient.h"
+
+using namespace std;
+
+
+class List {
+
+private:
+
+	/*
+	 * You can add more attributes to this class,
+	 * but you cannot remove the attributes below
+	 * nor can you change them.
+	 */
+
+	static const int MAX_ELEMENTS = 5; // Small capacity so can test when data collection becomes full
+									   // ***As we are testing the code of our assignment, we can  
+									   //    change the value given to this constant.***
+	Patient elements[MAX_ELEMENTS];    // Data structure with capacity of MAX_ELEMENTS
+	int elementCount;                  // Current element count in element array
+	int capacity;                      // Actual maximum capacity of element array   
+
+public:
+
+	/*
+	 * You can add more methods to this interface,
+	 * but you cannot remove the methods below
+	 * nor can you change their prototype.
+	 *
+	 */
+
+	 // Default constructor
+	List();
+
+	// Description: Returns the total element count currently stored in List.
+	int  getElementCount() const;
+	
+	// Description: Insert an element.
+	// Precondition: newElement must not already be in data collection.  
+	// Postcondition: newElement inserted and elementCount has been incremented.   
+	bool insert(const Patient& newElement);
+
+	// Description: Remove an element. 
+	// Postcondition: toBeRemoved is removed and elementCount has been decremented.	
+	bool remove(const Patient& toBeRemoved);
+
+	// Description: Remove all elements.
+	void removeAll();
+
+	// Description: Search for target element.
+	//              Returns a pointer to the element if found,
+	//              otherwise, returns NULL.
+	Patient* search(const Patient& target);
+
+
+}; // end List.h
+
+///////////////////////////////////
+/*
+ * List.cpp
+ *
+ * Class Description: List data collection ADT.
+ * Class Invariant: Data collection with the following characteristics:
+ *                   - Each element is unique (no duplicates).
+ *                   - (What other characteristic does our List have?)
+ *
+ * Author:Jiaqing Hu
+ * Date:2019/01/20
+ */
+#include "pch.h"
+#include "List.h"
+
+// Default constructor
+// This will create default list with both 0 elementCount & 0 capacity
+List::List()
+{
+	Patient elements[MAX_ELEMENTS];
+	this->elementCount = 0;
+	this->capacity = MAX_ELEMENTS;
+}
+
+// Description: Returns the total element count currently stored in List.
+int  List::getElementCount() const
+{
+	return this->elementCount;
+}
+
+
+
+// Description: Insert an element.
+// Precondition: newElement must not already be in data collection.  
+// Postcondition: newElement inserted and elementCount has been incremented.   
+bool List::insert(const Patient& newElement) {
+	if (search(newElement)||this->elementCount==this->capacity)
+		return false;
+	else
+	{
+		elements[elementCount] = newElement;
+		elementCount++;
+	}
+}
+
+// Description: Remove an element. 
+// Postcondition: toBeRemoved is removed and elementCount has been decremented.	
+bool List::remove(const Patient& toBeRemoved) {
+	if (this->elementCount==0||search(toBeRemoved)==NULL)
+		return false;
+	else
+	{
+		int i = 0;
+		for (Patient*p=this->elements; i < this->elementCount; i++,p++)
+		{
+			if (search(toBeRemoved)==p)
+			{
+				delete p;
+				for (int j = i; j <this->elementCount; j++)
+				{
+					this->elements[j] = this->elements[j + 1];
+				}
+			}
+		}
+		this->elementCount--;
+	}
+}
+
+// Description: Remove all elements.
+void List::removeAll() {}
+
+// Description: Search for target element.
+//              Returns a pointer to the element if found,
+//              otherwise, returns NULL.
+Patient* List::search(const Patient& target) {
+	Patient* p = this->elements;
+	for (int i = 0; i < this->elementCount; p++)
+		if (this->elements[i] == target)
+			return p;
+	return NULL;
+}
+
+
+//////////////////////////////
+/*
+ * Patient.h
+ *
+ * Class Description: Models a walk-in clinic patient.
+ * Class Invariant: Each patient has a unique care card number.
+ *                  This care card number must have 10 digits.
+ *                  This care card number cannot be modified.
+ *
+ * Author:Jiaqing Hu
+ * Date:2019/01/19
+ */
+
+#pragma once
+
+ // You can add #include statements if you wish.
+#include <string>
+
+using namespace std;
+
+
+class Patient {
+
+private:
+	string careCard;
+	string cardNumber;
+	string address;
+	string phone;
+	string email;
+
+	// There are plenty of hints in the provided files to help you complete this section.
+
+public:
+
+	/*
+	 * You can add more methods to this public interface,
+	 * but you cannot remove the methods below
+	 * nor can you change their prototype.
+	 *
+	 */
+
+	 // Default Constructor
+	 // Description: Create a patient with a care card number of "0000000000". 
+	 // Postcondition: All data members set to "To be entered", 
+	 //                except the care card number which is set to "0000000000".       
+	Patient();
+
+	// Parameterized Constructor
+	// Description: Create a patient with the given care card number.
+	// Postcondition: If aCareCard does not have 10 digits, then care card is set to "0000000000".
+	//                All other data members set to "To be entered".
+	Patient(string aCareCard);
+
+	// Getters and setters
+	// Description: Returns patient's name.
+	string getName() const;
+
+	// Description: Returns patient's address.
+	string getAddress() const;
+
+	// Description: Returns patient's phone.
+	string getPhone() const;
+
+	// Description: Returns patient's email.
+	string getEmail() const;
+
+	// Description: Returns patient's care card.
+	string getCareCard() const;
+
+	// Description: Sets the patient's name.
+	void setName(const string aName);
+
+	// Description: Sets the patient's address.
+	void setAddress(const string anAddress);
+
+	// Description: Sets the patient's phone.
+	void setPhone(const string aPhone);
+
+	// Description: Sets the patient's email.
+	void setEmail(const string anEmail);
+
+	// Overloaded Operators
+	// Description: Comparison operator. Compares "this" Patient object with "rhs" Patient object.
+	//              Returns true if both Patient objects have the same care card number.
+	bool operator == (const Patient & rhs);
+
+	// Description: Greater than operator. Compares "this" Patient object with "rhs" Patient object.
+	//              Returns true if the care card number of "this" Patient object is > the care card 
+	//              number of "rhs" Patient object.
+	bool operator > (const Patient & rhs);
+
+	// Description: Prints the content of "this".
+	friend ostream & operator<<(ostream & os, const Patient & p);
+
+}; // end of Patient.h
+
+///////////////////////////////
+/*
+ * Patient.cpp
+ *
+ * Class Description: Models a walk-in clinic patient.
+ * Class Invariant: Each patient has a unique care card number.
+ *                  This care card number must have 10 digits.
+ *                  This care card number cannot be modified.
+ *
+ * Author:Jiaqing Hu
+ * Date:2019/01/20
+ */
+
+ // You can add #include statements if you wish.
+#include <iostream>
+#include <string>
+#include "Patient.h"
+
+// Default Constructor
+// Description: Create a patient with a care card number of "0000000000". 
+// Postcondition: All data members set to "To be entered", 
+//                except the care card number which is set to "0000000000".       
+Patient::Patient() {
+	this->careCard = "0000000000";
+	this->Name = "To be entered";
+	this->address = "To be entered";
+	this->email = "To be entered";
+	this->phone = "To be entered";
+	// You need to complete this method.
+}
+
+// Parameterized Constructor
+// Description: Create a patient with the given care card number.
+// Postcondition: If aCareCard does not have 10 digits, then care card is set to "0000000000".
+//                All other data members set to "To be entered".
+Patient::Patient(string aCareCard) {
+	this->Name = "To be entered";
+	this->address = "To be entered";
+	this->email = "To be entered";
+	this->phone = "To be entered";
+	if (sizeof(aCareCard) <= 10)
+	{
+		this->careCard != "0000000000";
+	}
+	else
+	this->careCard = aCareCard; 
+	// You need to complete this method.
+
+}
+
+// Getters and setters -> You need to implement these methods.
+	// Description: Returns patient's name.
+string Patient::getName() const {
+	return this->Name;
+}
+
+// Description: Returns patient's address.
+string Patient::getAddress() const {
+	return this->address;
+}
+
+// Description: Returns patient's phone.
+string Patient::getPhone() const {
+	return this->phone;
+}
+
+// Description: Returns patient's email.
+string Patient::getEmail() const {
+	return this->email;
+}
+
+// Description: Returns patient's care card.
+string Patient::getCareCard() const {
+	return this->careCard;
+}
+
+// Description: Sets the patient's name.
+void Patient::setName(const string aName) {
+	this->Name = aName;
+}
+
+// Description: Sets the patient's address.
+void Patient::setAddress(const string anAddress) {
+	this->address = anAddress;
+}
+
+// Description: Sets the patient's phone.
+void Patient::setPhone(const string aPhone) {
+	this->phone = aPhone;
+}
+
+// Description: Sets the patient's email.
+void Patient::setEmail(const string anEmail) {
+	this->email = anEmail;
+}
+// Overloaded Operators
+// Description: Comparison operator. Compares "this" Patient object with "rhs" Patient object.
+//              Returns true if both Patient objects have the same care card number.
+bool Patient::operator == (const Patient & rhs) {
+
+	// Compare both Patient objects
+	if (this->careCard == rhs.getCareCard())
+		return true;
+	else
+		return false;
+
+} // end of operator ==
+
+// Description: Greater than operator. Compares "this" Patient object with "rhs" Patient object.
+//              Returns true if the care card number of "this" Patient object is > the care card 
+//              number of "rhs" Patient object
+bool Patient::operator > (const Patient & rhs) {
+
+	// Compare both Patient objects
+	if (this->careCard > rhs.getCareCard())
+		return true;
+	else
+		return false;
+
+} // end of operator >
+
+
+// Description: Prints the content of "this".
+ostream & operator<<(ostream & os, const Patient & p) {
+	cout << p.getCareCard() << " - " << "Patient: " << p.getName() << ", " << p.getAddress() << ", " << p.getPhone() << ", " << p.getEmail() << endl;
+	// You need to complete this method.   
+
+	return os;
+
+} // end of operator<<
+
+// end of Patient.cpp
