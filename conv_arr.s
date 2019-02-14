@@ -9,6 +9,8 @@ conv_arr:
 	pushq %r9
 	pushq %r10
 	pushq %r11
+	pushq %r12
+	
 
 	movq $0,%r9 	# r9 = i = 0	
 	movq %rsi,%rbx
@@ -17,57 +19,84 @@ conv_arr:
 loop:
 	cmpq %rbx,%r9	# ret when i > n+m-2
 	jg end
-	call karen
+	
+	pushq %rdi
+	movq %r9,%rdi
+	incq %rdi
+	pushq %rsi
+	movq %rcx,%rsi
+	call min
+test1:
 	movq %rax,%r10	# r10 = ladj
-	movq %r9,%r11	# r11 = i
-	pushq %r9
-	movq %rbx,%r9	# r9 = m+n-2
-	addq %r11,%r9	# r9 = m+n-i-2
+	popq %rsi
+	popq %rdi
+	
+	pushq %rdi
+	movq %rbx,%rdi	# rdi = m+n-2
+	subq %r9,%rdi	# rdi = m+n-2-i
+	incq %rdi	# rdi = m+n-(i+1)
+	pushq %rsi
+	movq %rcx,%rsi	# rsi = m	
+	call min
+test2:
+	movq %rcx,%r11	# r11 = m
+	subq %rax,%r11	# r11 = m-min
 
-	call karen
-	movq %rax,%r11	# r11 = radj
-	popq %r9	# restore i
+	popq %rsi
+	popq %rdi
+
 	pushq %rsi
 
 	movq %rdx,%rsi	# rsi = h
-	pushq %rdx
-	movq %r11,%rdx
-	imul $8,%rdx
-	addq %rdx,%rsi	# h = h+radj
-	popq %rdx
-	
-	pushq %r11
+
+testrsi1:
+	movq %r11,%r12
+	imul $8,%r12
+	addq %r12,%rsi	# rsi = h + radj
+testrsi2:	
+	pushq %r11	# save radj
 
 	movq %r9,%r11	# r11 = i
 	incq %r11	# r11 = i+1
 	subq %r10,%r11	# r11 = i+1-ladj
-	imul $8,%r11	
-	addq %rdi,%r11  # x = x + (i+1-ladj)
+	movq %r11,%r12
+	imul $8,%r11
+	addq %rdi,%r11
+	movq %rdi,%r12
+	movq %r11,%rdi
 
-	pushq %rdi
-	movq %r11,%rdi	
-	popq %r11
+	popq %r11	# restore radj
 	
 	pushq %rdx
 	movq %r10,%rdx	# rdx = ladj
 	subq %r11,%rdx	# rdx = ladj - radj
 
+	movq $0,%r10
+	movb (%rdi),%r10b
+	movq %r10,(%rdi)
+	movq $0,%r10
+	movb (%rsi),%r10b
+	movq %r10,(%rsi)
 	call conv
+test3:
+	
 
-	movq %rax,(%r8,%r9)
+	movb %al,(%r8,%r9)
+test4:
 	popq %rdx
-	popq %rdi
+	movq %r12,%rdi
 	popq %rsi
 	incq %r9	# i++
 
 	jmp loop	
 
 end:
-	popq %r11	# restore scratch registers
+	popq %r12	# restore scratch registers
+	popq %r11	
 	popq %r10
 	popq %r9
 	popq %rbx
-	#movq (%r8),%rax
+	
 	ret
 
 karen:
