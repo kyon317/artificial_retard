@@ -8,17 +8,17 @@
 conv_arr:
 	pushq %rdi	# rsp+24	*x
 	pushq %rsi	# rsp+16	n 15
-	pushq %rdx	# rsp+8	*h
+	pushq %rdx	# rsp+8		*h
 	pushq %rcx	# rsp		m 3
 	
 
 	movq $0,%r9 		# r9 = i = 0	
-	movq 16(%rsp),%rbx	
-	addq (%rsp),%rbx	# rbx = n+m
-	subq $2,%rbx		# rbx = n+m-2
+	movq 16(%rsp),%r10	
+	addq (%rsp),%r10	# r10 = n+m
+	subq $2,%r10		# r10 = n+m-2
 loop:
 	
-	cmpq %rbx,%r9
+	cmpq %r10,%r9		
 	jg end
 	movq %r9,%rdi
 	incq %rdi
@@ -29,7 +29,7 @@ test2:
 	movq %rax,%rdx		# rdx = ladj 
 test3:
 	movq %rdi,%rcx
-	movq %rbx,%rdi
+	movq %r10,%rdi
 	subq %r9,%rdi		# rdi = m+n-i-2
 	incq %rdi		# rdi = m+n-i-1
 test4:	
@@ -49,7 +49,7 @@ test7:
 	incq %r9
 	xorq %rax,%rax
 	
-test8:
+
 	jmp loop	
 
 end:
@@ -59,6 +59,6 @@ end:
 	popq %rsi
 	popq %rdi
 	xorq %rax,%rax
-	
+test8:
 	ret
 
