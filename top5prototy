@@ -1,0 +1,25 @@
+// Desc: Prints the highest 5 keys of the BST in decreasing order.
+//       Keys are presented in descending order in a space-separated
+//       list, ending with a newline.
+void BST::top5() const {
+	if (this->root == NULL)
+	{
+		return;
+	}
+	if (this->root->right == NULL)
+	{
+
+		cout << this->root->key << " ";
+	}
+	else
+	{
+		BST right = *this;
+		right.root = this->root->right;
+		right.top5();
+		cout << this->root->key << " ";
+		BST left = *this;
+		left.root = this->root->left;
+		left.top5();
+	}
+	cout << endl;
+} // top5
