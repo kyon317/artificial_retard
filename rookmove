@@ -1,0 +1,131 @@
+/*
+ * rook-moves.cpp
+ *
+ * 
+ * Class Definition: A function reports the minimum number of moves required to move the king from the starting position to the goal.
+ *                   
+ *
+ * Created on: 2019.03.27
+ * 
+ * Author: 301368526 - Jiaqing Hu
+ */
+
+#include "mapio.h"
+#include <iostream>
+#include <cstdio>
+#include <string>
+#include <queue>
+#include <vector>
+#include <unordered_map>
+#define DEBUG true
+
+using namespace std;
+
+
+vector<vector <int> > distmap;
+//unordered_map<pair<unsigned, unsigned>, int, hash_pair> distmap;
+
+
+
+int main () {
+    //. input routine supplied in "mapio.h"
+    //.   - access characters in the mapgrid using grid[row][col], 
+    //      where 0 <= row, col < n
+    ChessMap map;
+    cin >> map;
+    unsigned n = map.dim();
+    
+    queue<pair<unsigned, unsigned>> bfsqueue;
+    
+    //------------------------------//
+   //. ***   rook-moves.cpp   *** .//
+  //------------------------------//
+
+    //cout << map;
+
+    pair<unsigned, unsigned> start;                                     //Find Start point
+    pair<unsigned, unsigned> end;                                       //Find End point
+    for (unsigned i = 0; i < n; i++) {
+        vector<int>distance;
+        for (unsigned j = 0; j < n; j++) {
+            if (map[i][j] == 'k') { 
+            start = pair<unsigned, unsigned>({i,j});                    //Initialize the map with -1 except the start point.
+            distance.push_back(0);
+            } 
+            distance.push_back(-1);
+            if (map[i][j] == 'o') {
+            end = pair<unsigned, unsigned>({i,j}); 
+            }
+        }
+        distmap.push_back(distance);                                    //Push distance row into distmap.
+    }
+
+    // You can uncomment these two lines to check the starting point & ending point.
+    //if (DEBUG) cout << "The starting position is: " << start.first << ", " << start.second << endl;
+    //if (DEBUG) cout << "The ending position is: " << end.first << ", " << end.second << endl;
+
+    bfsqueue.push(start);                                               //Push start into bfsqueue.
+    //cout<<bfsqueue.front().first<<bfsqueue.front().second<<endl;
+    pair<unsigned, unsigned> path;                                      //Create temporary pair path to save coordinates.
+
+    while(!bfsqueue.empty()){                                           //Use BFS, give right value to the corresponding dismap block.
+        pair<unsigned,unsigned>temppair;
+        temppair = bfsqueue.front();                                    //For each time,pop one element from queue and change the distance of neighbouring blocks.
+        bfsqueue.pop();
+        
+        if (distmap[temppair.first][temppair.second]!=-1) {
+
+        int row1 = temppair.first;
+        while(map[row1][temppair.second]!='#'&&row1>0)row1--;
+        //cout<<row1<<endl;                             
+        int row2 = temppair.first;
+        //cout<<row2<<endl;
+
+        while(map[row2][temppair.second]!='#'&&row2<n-1)row2++;
+        
+        int col1 = temppair.second;
+        while(map[temppair.first][col1]!='#'&&col1>0)col1--;
+        int col2 = temppair.second;
+        while(map[temppair.first][col2]!='#'&&col2<n-1)col2++;
+        //cout<<row1<<"\t"<<row2<<"\t"<<col1<<"\t"<<col2<<endl;
+        for(int i = row1; i <= row2; i++)
+        {
+            for(int j = col1; j <= col2; j++)
+            {
+                path.first = i;
+                path.second = j;
+                int weight = distmap[temppair.first][temppair.second]+1;
+                if(map[i][j]!='#'){
+                if(distmap[i][j]==-1||distmap[i][j]>weight) {
+                    distmap[i][j]=weight;
+                    bfsqueue.push(path);
+                    }
+                
+                }
+                }
+            }
+        }
+    }
+    if (distmap[end.first][end.second]==-1) {                           //If the distance of end is still -1.
+        cout<<"Impossible"<<endl;                                      //Meaning it's unreachable,print"Impossible".
+        return 0;
+    }
+    //cout<<"loop finished"<<endl;
+    cout<<distmap[end.first][end.second]<<endl;                         //Output distance of the goal point.
+
+    for(int i = 0; i < 5; i++)
+    {
+        for(int j = 0;j<5;j++)
+        cout<<distmap[i][j]<<"\t";
+        cout<<endl;
+    }
+    
+
+    
+     //-------------------------//
+    //. End of rook-moves.cpp .//
+   //-------------------------//
+
+    return 0;
+}
+
