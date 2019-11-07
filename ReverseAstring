@@ -1,0 +1,40 @@
+
+//C++ Comman Solution
+class Solution {
+public:
+    void reverseString(vector<char>& s) {
+        int right = s.size();
+        int length = right/2;
+        right--;
+        for(int left = 0;left<length;left++)
+        {
+        if(left>=right) break;
+        char temp = s[left];
+        s[left] = s[right];
+        s[right--] = temp;
+        }
+        
+    }
+};
+
+//C++ Best memory usage
+class Solution {
+public:
+    void reverseString(vector<char>& s) {
+    for (int i = 0; i < s.size() / 2; i++) {
+        char tmp = s[i];
+        s[i] = s[ (s.size() - 1) - i ];
+        s[ (s.size() - 1) - i ] = tmp;
+    } 
+    }
+};
+
+//Python
+class Solution(object):
+    def reverseString(self, s):
+        s.reverse()
+        """
+        Life is short,use python:)
+        :type s: List[str]
+        :rtype: None Do not return anything, modify s in-place instead.
+        """
